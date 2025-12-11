@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIC Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <a href="#" id="homeLink" class="home-link">
+                    <i class="fas fa-chart-line platform-icon"></i>
+                    <span class="nav-title">CIC Platform</span>
+                </a>
+            </div>
+            <div class="nav-right">
+                <!-- Copilot Button -->
+                <button id="copilotBtn" class="copilot-btn" title="CIC Agent">
+                    <i class="fas fa-robot"></i>
+                    <span>CIC Agent</span>
+                </button>
+                
+                <!-- Login Form (when not logged in) -->
+                <div id="loginSection" class="login-section">
+                    <form id="loginForm" class="top-login-form">
+                        <input type="text" id="username" placeholder="Username" required>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- User Info (when logged in) -->
+                <div id="userSection" class="user-section hidden">
+                    <div class="user-info">
+                        <span id="userGreeting">Welcome, User</span>
+                        <button id="logoutBtn" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="sidebar-collapse-btn" title="Collapse sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="nav-section">
+                    <div class="nav-item active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Landing Page</span>
+                    </div>
+                    <div class="nav-item" data-page="insights">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">Insights Portal</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category collapsible" data-target="substrate-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-server"></i>
+                        <span class="nav-text">Substrate</span>
+                        <span class="nav-cost">$1.22B</span>
+                    </div>
+                    <div class="nav-subcategories collapsed" id="substrate-items">
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Transaction</span>
+                            <span class="nav-cost">$1.14B</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Process Hosting</span>
+                            <span class="nav-cost">$18.62M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Network</span>
+                            <span class="nav-cost">$27.68M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">HDD-Storage</span>
+                            <span class="nav-cost">$21.4M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">SSD-Storage</span>
+                            <span class="nav-cost">$11.21M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category collapsible" data-target="azure-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-cloud"></i>
+                        <span class="nav-text">Azure Costs</span>
+                        <span class="nav-cost">$374.21M</span>
+                    </div>
+                    <div class="nav-subcategories collapsed" id="azure-items">
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Public Compute</span>
+                            <span class="nav-cost">$164.42M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">AzSC Compute</span>
+                            <span class="nav-cost">$13.69M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category">
+                        <i class="fas fa-database"></i>
+                        <span class="nav-text">COSMIC</span>
+                        <span class="nav-cost">$38.31M</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category collapsible" data-target="telemetry-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">Telemetry</span>
+                        <span class="nav-cost">$64.08M</span>
+                    </div>
+                    <div class="nav-subcategories collapsed" id="telemetry-items">
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Cosmos</span>
+                            <span class="nav-cost">$20.75M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Blueshift</span>
+                            <span class="nav-cost">$3.82M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Kusto</span>
+                            <span class="nav-cost">$27.05M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Geneva MDS</span>
+                            <span class="nav-cost">$7.92M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Geneva MDM</span>
+                            <span class="nav-cost">$3.48M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Aria</span>
+                            <span class="nav-cost">$1.06M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">PassiveMonitoring</span>
+                            <span class="nav-cost">$5.98M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-item" data-page="finops">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="nav-text">FinOps</span>
+                    </div>
+                    <div class="nav-category collapsible" data-target="efficiency-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="nav-text">Efficiency Tracker</span>
+                    </div>
+                    <div class="nav-subcategories collapsed" id="efficiency-items">
+                        <div class="nav-subcategory" data-page="efficiency-virtualized">
+                            <span class="nav-text">Virtualized Efficiency Tracker</span>
+                        </div>
+                        <div class="nav-subcategory" data-page="efficiency-baremetal">
+                            <span class="nav-text">Baremetal Efficiency Tracker</span>
+                        </div>
+                        <div class="nav-subcategory" data-page="efficiency-bigbets">
+                            <span class="nav-text">Big Bets Efficiency Tracker</span>
+                        </div>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-layer-group"></i>
+                        <span class="nav-text">Inorganic Demand Tooling</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Expand Button (shown when sidebar is collapsed) -->
+        <button id="expandBtn" class="expand-btn" title="Expand sidebar">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Main Content Area -->
+        <main id="mainContent" class="main-content">
+            <!-- Login Prompt (when not logged in) -->
+            <div id="loginPrompt" class="login-prompt">
+                <div class="login-prompt-content">
+                    <i class="fas fa-lock"></i>
+                    <h2>Please log in to access CIC Platform</h2>
+                    <p>Use the login form in the top right corner to authenticate with your credentials and persona.</p>
+                    
+                    <div class="sample-credentials">
+                        <h3>Sample Credentials:</h3>
+                        <ul>
+                            <li><strong>Scenario Owner:</strong> scenario / scenario123</li>
+                            <li><strong>COGS Champ:</strong> cogs / cogs123</li>
+                            <li><strong>GEM:</strong> gem / gem123</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Quick Login Role Cards -->
+                    <div class="quick-login-section">
+                        <h3>Or select a role to quick login:</h3>
+                        <div class="role-cards-container">
+                            <div class="role-card" data-role="scenario">
+                                <div class="role-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <h4>Scenario Owner</h4>
+                                <p>Full access and permissions</p>
+                                <button class="role-login-btn">Login as Scenario Owner</button>
+                            </div>
+                            
+                            <div class="role-card" data-role="cogs">
+                                <div class="role-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4>COGS Champ</h4>
+                                <p>View costs & manage budgets</p>
+                                <button class="role-login-btn">Login as COGS Champ</button>
+                            </div>
+                            
+                            <div class="role-card" data-role="gem">
+                                <div class="role-icon">
+                                    <i class="fas fa-gem"></i>
+                                </div>
+                                <h4>GEM</h4>
+                                <p>View costs and insights</p>
+                                <button class="role-login-btn">Login as GEM</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content (when logged in) -->
+            <div id="dashboardContent" class="dashboard-content hidden">
+                <!-- Executive Summary Section -->
+                <div class="executive-summary">
+                    <div class="summary-header">
+                        <h2><i class="fas fa-exclamation-triangle"></i> TL;DR Executive Summary</h2>
+                        <span class="ai-generated-badge">AI Generated</span>
+                    </div>
+                    <div class="summary-content">
+                        <p><strong>Project: Java Infrastructure</strong> requires immediate attention with 2 critical areas flagged.</p>
+                        <p><strong>Budget variance of 15%</strong> primarily driven by compute resource scaling exceeding forecasts.</p>
+                        <p><strong>Optimization opportunities identified</strong> that could save $2.3M~4.2K monthly.</p>
+                        
+                        <div class="recommended-actions">
+                            <h4>Recommended Actions:</h4>
+                            <ul>
+                                <li>Implement automated controls for compute scaling</li>
+                                <li>Right-size over-provisioned instances (16 identified)</li>
+                                <li>Review and adjust budget forecasting models</li>
+                                <li>Execute efficiency plans for resource optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Health Scorecard -->
+                <div class="service-health-scorecard">
+                    <div class="scorecard-header">
+                        <h3>Service Health Scorecard</h3>
+                        <span class="action-required">Action Required</span>
+                    </div>
+                    <div class="scorecard-metrics">
+                        <div class="metric-card critical" data-navigation="insights-savings" data-scroll="actionableInsightsSection">
+                            <span class="metric-status-flag critical-flag">Critical</span>
+                            <div class="metric-label">
+                                <i class="fas fa-exclamation-circle"></i>
+                                Insight Opportunities
+                            </div>
+                            <div class="metric-value">85%</div>
+                            <div class="metric-score">5 of 6 score</div>
+                            <div class="metric-detail">High optimization potential in compute resources</div>
+                        </div>
+                        
+                        <div class="metric-card warning" data-navigation="insights-anomalies" data-scroll="actionableInsightsSection">
+                            <span class="metric-status-flag warning-flag">Warning</span>
+                            <div class="metric-label">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Anomaly Issues
+                            </div>
+                            <div class="metric-value">15%</div>
+                            <div class="metric-score">1 of 6 score</div>
+                            <div class="metric-detail">Minor spikes detected in average costs</div>
+                        </div>
+                        
+                        <div class="metric-card good">
+                            <span class="metric-status-flag good-flag">Good</span>
+                            <div class="metric-label">
+                                <i class="fas fa-chart-line"></i>
+                                Trend Analysis
+                            </div>
+                            <div class="metric-value">92%</div>
+                            <div class="metric-score">5.5 of 6 score</div>
+                            <div class="metric-detail">Positive trending within budget</div>
+                        </div>
+                        
+                        <div class="metric-card critical" data-navigation="finops" data-scroll="budgetExecutionSection">
+                            <span class="metric-status-flag critical-flag">Critical</span>
+                            <div class="metric-label">
+                                <i class="fas fa-dollar-sign"></i>
+                                Budget Execution
+                            </div>
+                            <div class="metric-value">78%</div>
+                            <div class="metric-score">4.7 of 6 score</div>
+                            <div class="metric-detail">Projected to exceed forecast budget by 15%</div>
+                        </div>
+                        
+                        <div class="metric-card warning">
+                            <span class="metric-status-flag warning-flag">Warning</span>
+                            <div class="metric-label">
+                                <i class="fas fa-bolt"></i>
+                                Efficiency
+                            </div>
+                            <div class="metric-value">67%</div>
+                            <div class="metric-score">4 of 6 score</div>
+                            <div class="metric-detail">Resource optimization plans in progress</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Execution Section -->
+                <div class="section-header" id="budgetExecutionSection">
+                    <h3>Budget Execution</h3>
+                </div>
+
+                <!-- Budget vs Actuals Chart -->
+                <div class="budget-chart-container">
+                    <h3>Budget vs Actuals</h3>
+                    <canvas id="budgetChartLanding" width="400" height="120"></canvas>
+                    <button class="show-details-btn" id="showFinOpsDetailsBtn">Show Details</button>
+                </div>
+
+                <!-- Insights Panel -->
+                <div class="insights-panel" id="actionableInsightsSection">
+                    <h3>Actionable Insights</h3>
+                    
+                    <div class="insight-card" data-insight="anomaly1">
+                        <div class="insight-header">
+                            <div class="insight-title-group">
+                                <span class="insight-type anomaly-type">Anomaly</span>
+                                <h4>$36.86M Monthly Automation Cost Increase</h4>
+                            </div>
+                            <span class="insight-impact high-impact">High impact</span>
+                        </div>
+                    </div>
+
+                    <div class="insight-card" data-insight="insight1">
+                        <div class="insight-header">
+                            <div class="insight-title-group">
+                                <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                <h4>$15.6M Monthly Saving Opportunity</h4>
+                            </div>
+                            <span class="insight-impact medium-impact">Medium impact</span>
+                        </div>
+                    </div>
+
+                    <div class="insight-card" data-insight="anomaly2">
+                        <div class="insight-header">
+                            <div class="insight-title-group">
+                                <span class="insight-type anomaly-type">Anomaly</span>
+                                <h4>Unexpected Spike in Storage Costs</h4>
+                            </div>
+                            <span class="insight-impact medium-impact">Medium impact</span>
+                        </div>
+                    </div>
+
+                    <div class="insight-card" data-insight="insight2">
+                        <div class="insight-header">
+                            <div class="insight-title-group">
+                                <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                <h4>Right-size 16 Over-provisioned Instances</h4>
+                            </div>
+                            <span class="insight-impact high-impact">High impact</span>
+                        </div>
+                    </div>
+
+                    <button class="view-all-btn" id="viewAllInsightsBtn">View All</button>
+                </div>
+
+                <!-- Copilot Chat Panel -->
+                <div id="copilotPanel" class="copilot-panel">
+                    <div class="copilot-header">
+                        <div class="copilot-title">
+                            <span>Chat</span>
+                        </div>
+                        <div class="copilot-actions">
+                            <button class="copilot-icon-btn" title="Open in new window">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                            <button class="copilot-icon-btn" title="Refresh">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="copilot-icon-btn" title="More options">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                            <button class="copilot-icon-btn" id="closeCopilot" title="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="copilot-body">
+                        <div class="copilot-secondary-header">
+                            <button class="copilot-secondary-btn active">
+                                <i class="fas fa-shield-alt"></i>
+                            </button>
+                            <button class="copilot-secondary-btn">
+                                <i class="fas fa-briefcase"></i>
+                            </button>
+                            <button class="copilot-secondary-btn">
+                                <i class="fas fa-globe"></i>
+                            </button>
+                        </div>
+                        <div class="copilot-content">
+                            <div class="copilot-welcome">
+                                <h2>Hi, how can I help?</h2>
+                            </div>
+                            <div class="copilot-input-container">
+                                <input type="text" class="copilot-input" placeholder="Message Copilot">
+                                <div class="copilot-input-actions">
+                                    <button class="copilot-input-btn" title="Add attachment">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="copilot-input-btn" title="Voice input">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <button class="copilot-input-btn" title="Send">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="copilot-suggestions">
+                                <button class="copilot-suggestion">Draft a new hire "welcome guide" that my team and I can collaborate on</button>
+                                <button class="copilot-suggestion">Help me prepare for a review of doc with business leadership</button>
+                                <button class="copilot-suggestion">Help me prepare for my day</button>
+                                <button class="copilot-show-more">Show more <i class="fas fa-chevron-down"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copilot-version">
+                        <span>M365 Copilot</span>
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                </div>
+
+                <!-- Insight Details Flyout -->
+                <div id="insightFlyout" class="insight-flyout">
+                    <div class="flyout-content">
+                        <div class="flyout-header">
+                            <h3 id="flyoutTitle"></h3>
+                            <button class="flyout-close" id="closeFlyout">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="flyout-body" id="flyoutBody"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Portal Content -->
+            <div id="insightsPortalContent" class="insights-portal-content hidden">
+                <!-- Header Section -->
+                <div class="insights-header">
+                    <div class="insights-tabs">
+                        <button class="tab-btn active" data-tab="anomalies">Anomalies: $36.86M</button>
+                        <button class="tab-btn" data-tab="savings">Potential Savings: $15.72M</button>
+                        <button class="tab-btn" data-tab="realized">Realized Savings: Coming Soon</button>
+                    </div>
+                </div>
+
+                <!-- Anomalies Tab Content -->
+                <div class="tab-content active" id="anomalies-content">
+                    <!-- Cost Summary Cards Container -->
+                    <div class="cost-summary-container">
+                        <div class="cost-increase-card">
+                            <div class="card-header">
+                                <h3>Total Monthly Cost Increase</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="main-cost" style="color: #dc3545 !important;">$36.86M</div>
+                                <div class="cost-breakdown">
+                                    <div class="cost-item">
+                                        <span class="cost-label">Substrate</span>
+                                        <span class="cost-value">$34.88M</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-label">Azure</span>
+                                        <span class="cost-value">$1.98M</span>
+                                    </div>
+                                </div>
+                                <div class="cost-bar">
+                                    <div class="bar-segment substrate" style="width: 94.6%"></div>
+                                    <div class="bar-segment azure" style="width: 5.4%"></div>
+                                </div>
+                                <div class="legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color substrate"></div>
+                                        <span>Substrate</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color azure"></div>
+                                        <span>Azure</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anomalies Table -->
+                    <div class="anomalies-table-container">
+                    <table class="anomalies-table">
+                        <thead>
+                            <tr>
+                                <th>Name <i class="fas fa-info-circle"></i></th>
+                                <th>Service Name</th>
+                                <th>Start Date</th>
+                                <th>Status <i class="fas fa-info-circle"></i></th>
+                                <th>Platform</th>
+                                <th>Anomaly</th>
+                                <th>Resource Type</th>
+                                <th>Monthly Resource Increase</th>
+                                <th>Monthly Cost Increase <i class="fas fa-info-circle"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" class="resource-link">SIPIGriffitProccessorDipPolicyChangeCrawlerAssistant</a></td>
+                                <td>IPSubstrate*</td>
+                                <td>7/3/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>411.19B</td>
+                                <td>$515.7K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIGriffitApplicationWestEngine</a></td>
+                                <td>Viva Insights - WPA\MyAnalytics ITEngine</td>
+                                <td>4/30/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>148.41B</td>
+                                <td>$186.1K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIStoreClientComponentITBA_OrchestatorRuminatorDynamicCrawler</a></td>
+                                <td>Other</td>
+                                <td>8/12/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>2.66T</td>
+                                <td>$333.27K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIStoreClientComponentSubstrateBlobService.MsExchangeSubstrateBlo...</a></td>
+                                <td>Other</td>
+                                <td>8/7/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>98.11B</td>
+                                <td>$121.4K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">7c1c93c5-a864-4a74-9d28-753f126fbde5|westus2</a></td>
+                                <td>Euclid Structured Storage - NGP Agent</td>
+                                <td>6/26/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Azure</td>
+                                <td>AzureCoreUsageAnomaly</td>
+                                <td>CPU (Core)</td>
+                                <td>7.62K</td>
+                                <td>$43.01K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">1d5daae6-a866-49e0-9646-1cb5cb65cdf|westus2</a></td>
+                                <td>Azure Virtual Desktop</td>
+                                <td>9/12/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Azure</td>
+                                <td>AzureCoreUsageAnomaly</td>
+                                <td>CPU (Core)</td>
+                                <td>2.23K</td>
+                                <td>$12.34K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">1bcf5ad6-ba55-40b7-8b51-df2bf064e4|eastus2</a></td>
+                                <td>Delivery Catalog</td>
+                                <td>6/19/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Azure</td>
+                                <td>AzureCoreUsageAnomaly</td>
+                                <td>CPU (Core)</td>
+                                <td>2.66K</td>
+                                <td>$14.72K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIStoreClientComponentADOnlineWorkloadManagerTenantDataAssistant</a></td>
+                                <td>Other</td>
+                                <td>1/25/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>102.72B</td>
+                                <td>$671.2K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <!-- Potential Savings Tab Content -->
+                <div class="tab-content" id="savings-content">
+                    <!-- Savings Summary Cards Container -->
+                    <div class="cost-summary-container">
+                        <div class="cost-increase-card">
+                            <div class="card-header">
+                                <h3>Total Monthly Cost Increase</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="main-cost" style="color: #dc3545 !important;">$15.72M</div>
+                                <div class="cost-breakdown">
+                                    <div class="cost-item">
+                                        <span class="cost-label">Substrate</span>
+                                        <span class="cost-value">$8.94M</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-label">Azure</span>
+                                        <span class="cost-value">$6.78M</span>
+                                    </div>
+                                </div>
+                                <div class="cost-bar">
+                                    <div class="bar-segment substrate" style="width: 56.9%"></div>
+                                    <div class="bar-segment azure" style="width: 43.1%"></div>
+                                </div>
+                                <div class="legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color substrate"></div>
+                                        <span>Substrate</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color azure"></div>
+                                        <span>Azure</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anomalies Table -->
+                    <div class="anomalies-table-container">
+                        <table class="anomalies-table">
+                            <thead>
+                                <tr>
+                                    <th>Name <i class="fas fa-info-circle"></i></th>
+                                    <th>Service Name</th>
+                                    <th>Start Date</th>
+                                    <th>Status <i class="fas fa-info-circle"></i></th>
+                                    <th>Platform</th>
+                                    <th>Anomaly</th>
+                                    <th>Resource Type</th>
+                                    <th>Monthly Resource Increase</th>
+                                    <th>Monthly Cost Increase <i class="fas fa-info-circle"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#" class="resource-link">RightSizingOpportunityProcessor</a></td>
+                                    <td>Optimization Engine</td>
+                                    <td>7/3/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>285.14B</td>
+                                    <td>$357.8K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">ReservedInstanceAnalyzer</a></td>
+                                    <td>Cost Analytics - Reserved Instance Engine</td>
+                                    <td>4/30/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>102.73B</td>
+                                    <td>$128.9K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">StorageOptimizationCrawler</a></td>
+                                    <td>Archive Migration Service</td>
+                                    <td>8/12/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>1.84T</td>
+                                    <td>$231.2K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">CosmosDBThroughputAnalyzer</a></td>
+                                    <td>Database Analytics</td>
+                                    <td>8/7/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>68.21B</td>
+                                    <td>$84.3K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">5f2a84c7-b973-4c85-af12-8e4f5bd2c1a9|eastus2</a></td>
+                                    <td>AKS Cluster Autoscaler</td>
+                                    <td>6/26/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Azure</td>
+                                    <td>AzureCoreUsageAnomaly</td>
+                                    <td>CPU (Core)</td>
+                                    <td>5.28K</td>
+                                    <td>$29.8K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">9b1c45e8-d298-4f67-8c9a-3e5b7a1f4c82|westus2</a></td>
+                                    <td>Function App Consumption</td>
+                                    <td>9/12/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Azure</td>
+                                    <td>AzureCoreUsageAnomaly</td>
+                                    <td>CPU (Core)</td>
+                                    <td>1.87K</td>
+                                    <td>$10.3K</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Realized Savings Tab Content -->
+                <div class="tab-content" id="realized-content">
+                    <div class="coming-soon">
+                        <i class="fas fa-construction"></i>
+                        <h3>Realized Savings Dashboard</h3>
+                        <p>This feature is coming soon. Track your implemented cost optimizations and their actual impact.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FinOps Content -->
+            <div id="finopsContent" class="finops-content hidden">
+                <div class="finops-header">
+                    <h1>Overview</h1>
+                    <p>Budget vs Actuals Tracking offers a comprehensive view of budget tracking for FY26, helping you monitor budget vs actuals from multiple dimensions.</p>
+                    
+                    <div class="finops-filters">
+                        <div class="filter-group">
+                            <label>FiscalYear</label>
+                            <select id="fiscalYearFilter" class="filter-select">
+                                <option value="FY26">FY26</option>
+                                <option value="FY25">FY25</option>
+                                <option value="FY24">FY24</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>GEMs</label>
+                            <div class="custom-multiselect" id="gemsFilterContainer">
+                                <div class="multiselect-button" id="gemsButton">
+                                    <span class="selected-text">All GEMs</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="multiselect-dropdown" id="gemsDropdown">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="gems-all" value="all" checked>
+                                        <label for="gems-all">All GEMs</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="gems-azure" value="azure">
+                                        <label for="gems-azure">Azure Services</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="gems-substrate" value="substrate">
+                                        <label for="gems-substrate">Substrate Platform</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="gems-office" value="office">
+                                        <label for="gems-office">Office 365</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="gems-dynamics" value="dynamics">
+                                        <label for="gems-dynamics">Dynamics 365</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Categories</label>
+                            <div class="custom-multiselect" id="categoriesFilterContainer">
+                                <div class="multiselect-button" id="categoriesButton">
+                                    <span class="selected-text">All Categories</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="multiselect-dropdown" id="categoriesDropdown">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="categories-all" value="all" checked>
+                                        <label for="categories-all">All Categories</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="categories-compute" value="compute">
+                                        <label for="categories-compute">Compute</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="categories-storage" value="storage">
+                                        <label for="categories-storage">Storage</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="categories-networking" value="networking">
+                                        <label for="categories-networking">Networking</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="categories-database" value="database">
+                                        <label for="categories-database">Database</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="categories-analytics" value="analytics">
+                                        <label for="categories-analytics">Analytics</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overview Metrics -->
+                <div class="finops-overview" id="finopsMetrics">
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="prevYearTargetLabel">FY25 Target</div>
+                        <div class="card-amount" id="prevYearTarget">$736.95M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="prevYearActualLabel">FY25 Actual Total</div>
+                        <div class="card-amount" id="prevYearActual">$736.95M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="prevYearDeltaLabel">FY25 Delta</div>
+                        <div class="card-amount" id="prevYearDelta">$0</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="currentYearTargetLabel">FY26 Target</div>
+                        <div class="card-amount" id="currentYearTarget">$835.95M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="currentYearActualLabel">FY26 Actual Current</div>
+                        <div class="card-amount" id="currentYearActual">$348.7M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="forecastRemainingLabel">FY26 Forecast Remaining</div>
+                        <div class="card-amount" id="forecastRemaining">$576.03M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="forecastTotalLabel">FY26 Forecast Total</div>
+                        <div class="card-amount" id="forecastTotal">$924.73M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="card-title" id="currentYearDeltaLabel">FY26 Delta</div>
+                        <div class="card-amount" id="currentYearDelta">$88.78M</div>
+                    </div>
+                </div>
+
+                <!-- Budget vs Actuals Chart -->
+                <div class="budget-chart-container">
+                    <h3>Budget vs Actuals</h3>
+                    <canvas id="budgetChart" width="400" height="120"></canvas>
+                </div>
+
+                <!-- Year-over-Year Cost Comparison Table -->
+                <div class="yoy-comparison-container">
+                    <div class="yoy-header">
+                        <h3>Year-over-Year Cost Comparison (FY25 vs FY26)</h3>
+                        <button class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </div>
+                    <div class="yoy-table-container">
+                        <table class="yoy-comparison-table" id="yoyTable">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sep</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dec</th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>May</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="yoyTableBody">
+                                <!-- Data populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Budget Overview Cards -->
+                <div class="budget-overview-cards">
+                    <!-- AI vs Non-AI Overview Card -->
+                    <div class="overview-detail-card">
+                        <h3>AI vs Non-AI Overview</h3>
+                        <div class="overview-table-container">
+                            <table class="overview-detail-table" id="aiOverviewTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>FY25 Target</th>
+                                        <th>FY25 Actual Total</th>
+                                        <th>FY25 Delta</th>
+                                        <th>FY26 Target</th>
+                                        <th>FY26 Actual Current</th>
+                                        <th>FY26 Forecast Remaining</th>
+                                        <th>FY26 Total</th>
+                                        <th>FY26 Delta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="aiOverviewBody">
+                                    <!-- Data populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Category Overview Card -->
+                    <div class="overview-detail-card">
+                        <h3>Category Overview</h3>
+                        <div class="overview-table-container">
+                            <table class="overview-detail-table" id="categoryOverviewTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>FY25 Target</th>
+                                        <th>FY25 Actual Total</th>
+                                        <th>FY25 Delta</th>
+                                        <th>FY26 Target</th>
+                                        <th>FY26 Actual Current</th>
+                                        <th>FY26 Forecast Remaining</th>
+                                        <th>FY26 Total</th>
+                                        <th>FY26 Delta</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categoryOverviewBody">
+                                    <!-- Data populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GEM Summary Table -->
+                <div class="gem-summary-container" id="gemSummaryContainer" style="display: none;">
+                    <div class="gem-summary-header">
+                        <h3>GEM Summary</h3>
+                        <button class="download-btn">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </button>
+                    </div>
+                    <div class="gem-table-container">
+                        <table class="gem-summary-table" id="gemSummaryTable">
+                            <thead>
+                                <tr>
+                                    <th>GEM</th>
+                                    <th>FY25 Target</th>
+                                    <th>FY25 Actual Total</th>
+                                    <th>FY25 Delta</th>
+                                    <th>FY26 Target</th>
+                                    <th>FY26 Actual Current</th>
+                                    <th>FY26 Forecast Remaining</th>
+                                    <th>FY26 Forecast Total</th>
+                                    <th>FY26 Delta</th>
+                                    <th>FY26 vs FY25 YoY %</th>
+                                    <th>September Spend</th>
+                                    <th>September YoY %</th>
+                                    <th>September MoM %</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gemSummaryBody">
+                                <!-- Data populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virtualized Efficiency Tracker Page -->
+            <div id="efficiencyVirtualizedContent" class="page-content hidden">
+                <div class="efficiency-content">
+                    <div class="efficiency-header">
+                        <div>
+                            <div class="page-breadcrumb">AllProject</div>
+                            <h1>Virtualized Efficiency Tracker</h1>
+                            <p class="page-description">Welcome to the Efficiency Tracker! Double click the row to see the project details. <a href="#">Learn More</a></p>
+                        </div>
+                    </div>
+
+                    <div class="efficiency-toolbar">
+                        <div class="toolbar-actions">
+                            <button class="toolbar-btn primary">
+                                <i class="fas fa-plus"></i>
+                                <span>Add project</span>
+                            </button>
+                            <button class="toolbar-btn">
+                                <i class="fas fa-download"></i>
+                                <span>Export</span>
+                            </button>
+                            <button class="toolbar-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div class="toolbar-search">
+                            <input type="text" class="search-input" placeholder="Filter by name">
+                            <div class="toolbar-info">
+                                <span class="item-selection">No items selected</span>
+                                <span class="item-count">Total 4 items</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="efficiency-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Plan ID</th>
+                                <th>Workload</th>
+                                <th>Resource</th>
+                                <th>Status</th>
+                                <th>Confidence</th>
+                                <th>Submission date</th>
+                                <th>Target date</th>
+                                <th>Submission status</th>
+                                <th>Owner</th>
+                                <th>Platform</th>
+                                <th>Resource UOM</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Create Services: VM right sizing (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>14</td>
+                                <td>vCore</td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="status-badge delayed"><i class="fas fa-exclamation-triangle"></i> Delayed</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>06/19/2024</td>
+                                <td>07/01/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>juanvi@microsoft.com</td>
+                                <td>Public</td>
+                                <td>Cores</td>
+                                <td>Demands</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Substrate Growth Reduction (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>16</td>
+                                <td>vCore</td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="status-badge delayed"><i class="fas fa-exclamation-triangle"></i> Delayed</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>09/11/2024</td>
+                                <td>01/01/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>jongelez@microsoft.com</td>
+                                <td>Public</td>
+                                <td>Cores</td>
+                                <td>Demands</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Substrate Growth Reduction 2 (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>17</td>
+                                <td>vCore</td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>09/11/2024</td>
+                                <td>11/01/2024</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>jongelez@microsoft.com</td>
+                                <td>Public</td>
+                                <td>Cores</td>
+                                <td>Demands</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">OCS Efficiencies (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>18</td>
+                                <td>vCore</td>
+                                <td></td>
+                                <td></td>
+                                <td><span class="status-badge delayed"><i class="fas fa-exclamation-triangle"></i> Delayed</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>10/31/2024</td>
+                                <td>11/01/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>mansingh@microsoft.com</td>
+                                <td>Public</td>
+                                <td>Cores</td>
+                                <td>Demands</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Baremetal Efficiency Tracker Page -->
+            <div id="efficiencyBaremetalContent" class="page-content hidden">
+                <div class="efficiency-content">
+                    <div class="efficiency-header">
+                        <div>
+                            <div class="page-breadcrumb">AllProject</div>
+                            <h1>Baremetal Efficiency Tracker</h1>
+                            <p class="page-description">Welcome to the Efficiency Tracker! Double click the row to see the project details. <a href="#">Learn More</a></p>
+                        </div>
+                    </div>
+
+                    <div class="efficiency-toolbar">
+                        <div class="toolbar-actions">
+                            <button class="toolbar-btn primary">
+                                <i class="fas fa-plus"></i>
+                                <span>Add project</span>
+                            </button>
+                            <button class="toolbar-btn">
+                                <i class="fas fa-download"></i>
+                                <span>Export</span>
+                            </button>
+                            <button class="toolbar-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div class="toolbar-search">
+                            <input type="text" class="search-input" placeholder="Filter by name">
+                            <div class="toolbar-info">
+                                <span class="item-selection">No items selected</span>
+                                <span class="item-count">Total 3 items</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="efficiency-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Plan ID</th>
+                                <th>Workload</th>
+                                <th>Resource</th>
+                                <th>Status</th>
+                                <th>Confidence</th>
+                                <th>Submission date</th>
+                                <th>Target date</th>
+                                <th>Submission status</th>
+                                <th>Owner</th>
+                                <th>Platform</th>
+                                <th>Resource UOM</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Hardware Refresh Optimization (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>21</td>
+                                <td>Physical Server</td>
+                                <td>Exchange</td>
+                                <td>Compute</td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>05/14/2024</td>
+                                <td>03/15/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>sarah.chen@microsoft.com</td>
+                                <td>On-Prem</td>
+                                <td>Servers</td>
+                                <td>Hardware</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Power Efficiency Initiative (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>22</td>
+                                <td>Physical Server</td>
+                                <td>SharePoint</td>
+                                <td>Storage</td>
+                                <td><span class="status-badge delayed"><i class="fas fa-exclamation-triangle"></i> Delayed</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>07/22/2024</td>
+                                <td>12/20/2024</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>mike.roberts@microsoft.com</td>
+                                <td>On-Prem</td>
+                                <td>Watts</td>
+                                <td>Energy</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Datacenter Consolidation (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>23</td>
+                                <td>Physical Server</td>
+                                <td>Teams</td>
+                                <td>Network</td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>08/05/2024</td>
+                                <td>06/30/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>priya.sharma@microsoft.com</td>
+                                <td>On-Prem</td>
+                                <td>Racks</td>
+                                <td>Infrastructure</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Big Bets Efficiency Tracker Page -->
+            <div id="efficiencyBigbetsContent" class="page-content hidden">
+                <div class="efficiency-content">
+                    <div class="efficiency-header">
+                        <div>
+                            <div class="page-breadcrumb">AllProject</div>
+                            <h1>Big Bets Efficiency Tracker</h1>
+                            <p class="page-description">Welcome to the Efficiency Tracker! Double click the row to see the project details. <a href="#">Learn More</a></p>
+                        </div>
+                    </div>
+
+                    <div class="efficiency-toolbar">
+                        <div class="toolbar-actions">
+                            <button class="toolbar-btn primary">
+                                <i class="fas fa-plus"></i>
+                                <span>Add project</span>
+                            </button>
+                            <button class="toolbar-btn">
+                                <i class="fas fa-download"></i>
+                                <span>Export</span>
+                            </button>
+                            <button class="toolbar-btn">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div class="toolbar-search">
+                            <input type="text" class="search-input" placeholder="Filter by name">
+                            <div class="toolbar-info">
+                                <span class="item-selection">No items selected</span>
+                                <span class="item-count">Total 5 items</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="efficiency-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Plan ID</th>
+                                <th>Workload</th>
+                                <th>Resource</th>
+                                <th>Status</th>
+                                <th>Confidence</th>
+                                <th>Submission date</th>
+                                <th>Target date</th>
+                                <th>Submission status</th>
+                                <th>Owner</th>
+                                <th>Platform</th>
+                                <th>Resource UOM</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">AI Infrastructure Scaling (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>31</td>
+                                <td>GPU Cluster</td>
+                                <td>AI Services</td>
+                                <td>GPU</td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>04/10/2024</td>
+                                <td>09/30/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>alex.kim@microsoft.com</td>
+                                <td>Azure</td>
+                                <td>GPUs</td>
+                                <td>Strategic</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Global CDN Expansion (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>32</td>
+                                <td>Edge Network</td>
+                                <td>Content Delivery</td>
+                                <td>Bandwidth</td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>03/18/2024</td>
+                                <td>08/15/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>lisa.wong@microsoft.com</td>
+                                <td>Multi-Cloud</td>
+                                <td>Gbps</td>
+                                <td>Strategic</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Quantum Computing R&D (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>33</td>
+                                <td>Quantum Lab</td>
+                                <td>Quantum Research</td>
+                                <td>Qubits</td>
+                                <td><span class="status-badge delayed"><i class="fas fa-exclamation-triangle"></i> Delayed</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>02/28/2024</td>
+                                <td>12/31/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>david.lee@microsoft.com</td>
+                                <td>Research</td>
+                                <td>Qubits</td>
+                                <td>Innovation</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Sovereign Cloud Initiative (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>34</td>
+                                <td>Regional Cloud</td>
+                                <td>Government</td>
+                                <td>Datacenter</td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>05/20/2024</td>
+                                <td>10/30/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>emma.davis@microsoft.com</td>
+                                <td>Sovereign</td>
+                                <td>Regions</td>
+                                <td>Strategic</td>
+                            </tr>
+                            <tr class="group-row">
+                                <td colspan="15">
+                                    <i class="fas fa-chevron-down"></i>
+                                    <span class="group-name">Sustainability Carbon Neutral (1)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><i class="fas fa-ellipsis-v row-menu"></i></td>
+                                <td>35</td>
+                                <td>Green Energy</td>
+                                <td>Sustainability</td>
+                                <td>Renewable</td>
+                                <td><span class="status-badge on-track"><i class="fas fa-check-circle"></i> On track</span></td>
+                                <td><span class="confidence-badge high">High</span></td>
+                                <td>01/15/2024</td>
+                                <td>12/31/2025</td>
+                                <td class="status-approved"><i class="fas fa-check-circle"></i> Approved</td>
+                                <td>jordan.patel@microsoft.com</td>
+                                <td>Global</td>
+                                <td>MW</td>
+                                <td>Environmental</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

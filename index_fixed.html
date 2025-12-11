@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIC Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <i class="fas fa-chart-line platform-icon"></i>
+                <span class="nav-title">CIC Platform</span>
+            </div>
+            <div class="nav-right">
+                <!-- Login Form (when not logged in) -->
+                <div id="loginSection" class="login-section">
+                    <form id="loginForm" class="top-login-form">
+                        <input type="text" id="username" placeholder="Username" required>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <select id="persona" required>
+                            <option value="">Role</option>
+                            <option value="admin">Administrator</option>
+                            <option value="finance">Finance Manager</option>
+                            <option value="developer">Developer</option>
+                            <option value="viewer">Viewer</option>
+                        </select>
+                        <button type="submit" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- User Info (when logged in) -->
+                <div id="userSection" class="user-section hidden">
+                    <div class="user-info">
+                        <span id="userGreeting">Welcome, User</span>
+                        <button id="logoutBtn" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <button id="sidebarToggle" class="sidebar-collapse-btn" title="Collapse sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <div class="nav-section">
+                    <div class="nav-item active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Landing Page</span>
+                    </div>
+                    <div class="nav-item" data-page="insights">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">Insights Portal</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category collapsible" data-target="substrate-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-server"></i>
+                        <span class="nav-text">Substrate</span>
+                        <span class="nav-cost">$1.22B</span>
+                    </div>
+                    <div class="nav-subcategories" id="substrate-items">
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Transaction</span>
+                            <span class="nav-cost">$1.14B</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Process Hosting</span>
+                            <span class="nav-cost">$18.62M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Network</span>
+                            <span class="nav-cost">$27.68M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">HDD-Storage</span>
+                            <span class="nav-cost">$21.4M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">SSD-Storage</span>
+                            <span class="nav-cost">$11.21M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category collapsible" data-target="azure-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-cloud"></i>
+                        <span class="nav-text">Azure Costs</span>
+                        <span class="nav-cost">$374.21M</span>
+                    </div>
+                    <div class="nav-subcategories" id="azure-items">
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Public Compute</span>
+                            <span class="nav-cost">$164.42M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">AzSC Compute</span>
+                            <span class="nav-cost">$13.69M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category">
+                        <i class="fas fa-database"></i>
+                        <span class="nav-text">COSMIC</span>
+                        <span class="nav-cost">$38.31M</span>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-category collapsible" data-target="telemetry-items">
+                        <i class="fas fa-chevron-right expand-icon"></i>
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">Telemetry</span>
+                        <span class="nav-cost">$64.08M</span>
+                    </div>
+                    <div class="nav-subcategories" id="telemetry-items">
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Cosmos</span>
+                            <span class="nav-cost">$20.75M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Blueshift</span>
+                            <span class="nav-cost">$3.82M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Kusto</span>
+                            <span class="nav-cost">$27.05M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Geneva MDS</span>
+                            <span class="nav-cost">$7.92M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Geneva MDM</span>
+                            <span class="nav-cost">$3.48M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">Aria</span>
+                            <span class="nav-cost">$1.06M</span>
+                        </div>
+                        <div class="nav-subcategory">
+                            <span class="nav-text">PassiveMonitoring</span>
+                            <span class="nav-cost">$5.98M</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-item" data-page="finops">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="nav-text">FinOps</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="nav-text">Efficiency Tracker</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-layer-group"></i>
+                        <span class="nav-text">Inorganic Demand Tooling</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Expand Button (shown when sidebar is collapsed) -->
+        <button id="expandBtn" class="expand-btn" title="Expand sidebar">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Main Content Area -->
+        <main id="mainContent" class="main-content">
+            <!-- Login Prompt (when not logged in) -->
+            <div id="loginPrompt" class="login-prompt">
+                <div class="login-prompt-content">
+                    <i class="fas fa-lock"></i>
+                    <h2>Please log in to access CIC Platform</h2>
+                    <p>Use the login form in the top right corner to authenticate with your credentials and persona.</p>
+                    <div class="sample-credentials">
+                        <h3>Sample Credentials:</h3>
+                        <ul>
+                            <li><strong>Administrator:</strong> admin / admin123 / admin</li>
+                            <li><strong>Finance Manager:</strong> finance / finance123 / finance</li>
+                            <li><strong>Developer:</strong> dev / dev123 / developer</li>
+                            <li><strong>Viewer:</strong> viewer / viewer123 / viewer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content (when logged in) -->
+            <div id="dashboardContent" class="dashboard-content hidden">
+                <!-- Cost Overview Section -->
+                <div class="cost-overview">
+                    <div class="cost-card">
+                        <h2>$1.61B Total Cost</h2>
+                        <div class="cost-details">
+                            <div class="cost-item">
+                                <span class="cost-period">Feb 2024</span>
+                                <span class="cost-amount">$538.04M</span>
+                            </div>
+                            <div class="cost-item">
+                                <span class="cost-period">Jan 2024</span>
+                                <span class="cost-amount">$537.59M</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-container">
+                    <!-- Total Cost Chart -->
+                    <div class="chart-card">
+                        <h3>$1.22B Total Cost</h3>
+                        <div class="chart-subtitle">Daily cost of Azure: $38.04M/day</div>
+                        <canvas id="totalCostChart"></canvas>
+                    </div>
+
+                    <!-- Cost Breakdown Pie Chart -->
+                    <div class="chart-card">
+                        <h3>$374.21M Total Cost</h3>
+                        <div class="chart-subtitle">Azure</div>
+                        <canvas id="costBreakdownChart"></canvas>
+                    </div>
+
+                    <!-- Storage Cost Chart -->
+                    <div class="chart-card">
+                        <h3>$38.31M Total Cost</h3>
+                        <div class="chart-subtitle">Monthly cost of server: $1,190/month</div>
+                        <canvas id="storageCostChart"></canvas>
+                    </div>
+
+                    <!-- Azure Costs Detail Chart -->
+                    <div class="chart-card">
+                        <h3>$64.08M Total Cost</h3>
+                        <canvas id="azureCostChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Insights Panel -->
+                <div class="insights-panel">
+                    <h3>Take action on cost-saving insights</h3>
+                    <p>Recommendations for the selected subscription</p>
+                    
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h4>$36.86M Monthly Automation Cost Increase</h4>
+                            <span class="insight-impact">High impact</span>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <h4>$15.6M Monthly Saving Opportunity</h4>
+                            <span class="insight-impact">Medium impact</span>
+                        </div>
+                    </div>
+
+                    <button class="view-all-btn">View all</button>
+                </div>
+            </div>
+
+            <!-- Insights Portal Content -->
+            <div id="insightsPortalContent" class="insights-portal-content hidden">
+                <!-- Header Section -->
+                <div class="insights-header">
+                    <div class="insights-tabs">
+                        <button class="tab-btn active" data-tab="anomalies">Anomalies: $36.86M</button>
+                        <button class="tab-btn" data-tab="savings">Potential Savings: $15.72M</button>
+                        <button class="tab-btn" data-tab="realized">Realized Savings: Coming Soon</button>
+                    </div>
+                </div>
+
+                <!-- Anomalies Tab Content -->
+                <div class="tab-content active" id="anomalies-content">
+                    <!-- Cost Summary Cards Container -->
+                    <div class="cost-summary-container">
+                        <div class="cost-increase-card">
+                            <div class="card-header">
+                                <h3>Total Monthly Cost Increase</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="main-cost" style="color: #dc3545 !important;">$36.86M</div>
+                                <div class="cost-breakdown">
+                                    <div class="cost-item">
+                                        <span class="cost-label">Substrate</span>
+                                        <span class="cost-value">$34.88M</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-label">Azure</span>
+                                        <span class="cost-value">$1.98M</span>
+                                    </div>
+                                </div>
+                                <div class="cost-bar">
+                                    <div class="bar-segment substrate" style="width: 94.6%"></div>
+                                    <div class="bar-segment azure" style="width: 5.4%"></div>
+                                </div>
+                                <div class="legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color substrate"></div>
+                                        <span>Substrate</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color azure"></div>
+                                        <span>Azure</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anomalies Table -->
+                    <div class="anomalies-table-container">
+                    <table class="anomalies-table">
+                        <thead>
+                            <tr>
+                                <th>Name <i class="fas fa-info-circle"></i></th>
+                                <th>Service Name</th>
+                                <th>Start Date</th>
+                                <th>Status <i class="fas fa-info-circle"></i></th>
+                                <th>Platform</th>
+                                <th>Anomaly</th>
+                                <th>Resource Type</th>
+                                <th>Monthly Resource Increase</th>
+                                <th>Monthly Cost Increase <i class="fas fa-info-circle"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" class="resource-link">SIPIGriffitProccessorDipPolicyChangeCrawlerAssistant</a></td>
+                                <td>IPSubstrate*</td>
+                                <td>7/3/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>411.19B</td>
+                                <td>$515.7K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIGriffitApplicationWestEngine</a></td>
+                                <td>Viva Insights - WPA\MyAnalytics ITEngine</td>
+                                <td>4/30/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>148.41B</td>
+                                <td>$186.1K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIStoreClientComponentITBA_OrchestatorRuminatorDynamicCrawler</a></td>
+                                <td>Other</td>
+                                <td>8/12/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>2.66T</td>
+                                <td>$333.27K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIStoreClientComponentSubstrateBlobService.MsExchangeSubstrateBlo...</a></td>
+                                <td>Other</td>
+                                <td>8/7/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>98.11B</td>
+                                <td>$121.4K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">7c1c93c5-a864-4a74-9d28-753f126fbde5|westus2</a></td>
+                                <td>Euclid Structured Storage - NGP Agent</td>
+                                <td>6/26/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Azure</td>
+                                <td>AzureCoreUsageAnomaly</td>
+                                <td>CPU (Core)</td>
+                                <td>7.62K</td>
+                                <td>$43.01K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">1d5daae6-a866-49e0-9646-1cb5cb65cdf|westus2</a></td>
+                                <td>Azure Virtual Desktop</td>
+                                <td>9/12/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Azure</td>
+                                <td>AzureCoreUsageAnomaly</td>
+                                <td>CPU (Core)</td>
+                                <td>2.23K</td>
+                                <td>$12.34K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">1bcf5ad6-ba55-40b7-8b51-df2bf064e4|eastus2</a></td>
+                                <td>Delivery Catalog</td>
+                                <td>6/19/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Azure</td>
+                                <td>AzureCoreUsageAnomaly</td>
+                                <td>CPU (Core)</td>
+                                <td>2.66K</td>
+                                <td>$14.72K</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" class="resource-link">WWIStoreClientComponentADOnlineWorkloadManagerTenantDataAssistant</a></td>
+                                <td>Other</td>
+                                <td>1/25/2025</td>
+                                <td><span class="status-badge new">New</span></td>
+                                <td>Substrate</td>
+                                <td>StoreCPUAnomaly</td>
+                                <td>Transaction (TRU)</td>
+                                <td>102.72B</td>
+                                <td>$671.2K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <!-- Potential Savings Tab Content -->
+                <div class="tab-content" id="savings-content">
+                    <!-- Savings Summary Cards Container -->
+                    <div class="cost-summary-container">
+                        <div class="cost-increase-card">
+                            <div class="card-header">
+                                <h3>Total Monthly Cost Increase</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="main-cost" style="color: #dc3545 !important;">$15.72M</div>
+                                <div class="cost-breakdown">
+                                    <div class="cost-item">
+                                        <span class="cost-label">Substrate</span>
+                                        <span class="cost-value">$8.94M</span>
+                                    </div>
+                                    <div class="cost-item">
+                                        <span class="cost-label">Azure</span>
+                                        <span class="cost-value">$6.78M</span>
+                                    </div>
+                                </div>
+                                <div class="cost-bar">
+                                    <div class="bar-segment substrate" style="width: 56.9%"></div>
+                                    <div class="bar-segment azure" style="width: 43.1%"></div>
+                                </div>
+                                <div class="legend">
+                                    <div class="legend-item">
+                                        <div class="legend-color substrate"></div>
+                                        <span>Substrate</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-color azure"></div>
+                                        <span>Azure</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anomalies Table -->
+                    <div class="anomalies-table-container">
+                        <table class="anomalies-table">
+                            <thead>
+                                <tr>
+                                    <th>Name <i class="fas fa-info-circle"></i></th>
+                                    <th>Service Name</th>
+                                    <th>Start Date</th>
+                                    <th>Status <i class="fas fa-info-circle"></i></th>
+                                    <th>Platform</th>
+                                    <th>Anomaly</th>
+                                    <th>Resource Type</th>
+                                    <th>Monthly Resource Increase</th>
+                                    <th>Monthly Cost Increase <i class="fas fa-info-circle"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#" class="resource-link">RightSizingOpportunityProcessor</a></td>
+                                    <td>Optimization Engine</td>
+                                    <td>7/3/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>285.14B</td>
+                                    <td>$357.8K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">ReservedInstanceAnalyzer</a></td>
+                                    <td>Cost Analytics - Reserved Instance Engine</td>
+                                    <td>4/30/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>102.73B</td>
+                                    <td>$128.9K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">StorageOptimizationCrawler</a></td>
+                                    <td>Archive Migration Service</td>
+                                    <td>8/12/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>1.84T</td>
+                                    <td>$231.2K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">CosmosDBThroughputAnalyzer</a></td>
+                                    <td>Database Analytics</td>
+                                    <td>8/7/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Substrate</td>
+                                    <td>StoreCPUAnomaly</td>
+                                    <td>Transaction (TRU)</td>
+                                    <td>68.21B</td>
+                                    <td>$84.3K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">5f2a84c7-b973-4c85-af12-8e4f5bd2c1a9|eastus2</a></td>
+                                    <td>AKS Cluster Autoscaler</td>
+                                    <td>6/26/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Azure</td>
+                                    <td>AzureCoreUsageAnomaly</td>
+                                    <td>CPU (Core)</td>
+                                    <td>5.28K</td>
+                                    <td>$29.8K</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#" class="resource-link">9b1c45e8-d298-4f67-8c9a-3e5b7a1f4c82|westus2</a></td>
+                                    <td>Function App Consumption</td>
+                                    <td>9/12/2025</td>
+                                    <td><span class="status-badge new">New</span></td>
+                                    <td>Azure</td>
+                                    <td>AzureCoreUsageAnomaly</td>
+                                    <td>CPU (Core)</td>
+                                    <td>1.87K</td>
+                                    <td>$10.3K</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Realized Savings Tab Content -->
+                <div class="tab-content" id="realized-content">
+                    <div class="coming-soon">
+                        <i class="fas fa-construction"></i>
+                        <h3>Realized Savings Dashboard</h3>
+                        <p>This feature is coming soon. Track your implemented cost optimizations and their actual impact.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FinOps Content -->
+            <div id="finopsContent" class="finops-content hidden">
+                <!-- Overview Metrics -->
+                <div class="finops-overview">
+                    <div class="overview-card">
+                        <div class="card-title">PY3 Target</div>
+                        <div class="card-amount">$736.45M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY3 Actual Total</div>
+                        <div class="card-amount">$736.56M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY3 Delta</div>
+                        <div class="card-amount negative">-$0.11M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY4 Target</div>
+                        <div class="card-amount">$835.55M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY4 Actual Current</div>
+                        <div class="card-amount">$348.7M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY4 Forecast Remaining</div>
+                        <div class="card-amount">$576.83M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY4 Forecast Total</div>
+                        <div class="card-amount">$924.73M</div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-title">PY4 Delta</div>
+                        <div class="card-amount negative">-$89.28M</div>
+                    </div>
+                </div>
+
+                <!-- Category Overview Tables -->
+                <div class="category-overview">
+                    <h3>Category Overview</h3>
+                    <div class="category-tables">
+                        <div class="category-table-section">
+                            <h4>All Year All Overview</h4>
+                            <table class="category-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cost Type</th>
+                                        <th>PY3 Target</th>
+                                        <th>PY3 Actual</th>
+                                        <th>PY3 Delta</th>
+                                        <th>PY4 Target</th>
+                                        <th>PY4 Forecast</th>
+                                        <th>PY4 Delta</th>
+                                        <th>Variance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Azure</td>
+                                        <td>$261.92M</td>
+                                        <td>$261.64M</td>
+                                        <td class="positive">$0.28M</td>
+                                        <td>$295.12M</td>
+                                        <td>$287.45M</td>
+                                        <td class="positive">$7.67M</td>
+                                        <td class="positive">2.6%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Substrate</td>
+                                        <td>$364.53M</td>
+                                        <td>$364.92M</td>
+                                        <td class="negative">-$0.39M</td>
+                                        <td>$410.43M</td>
+                                        <td>$467.28M</td>
+                                        <td class="negative">-$56.85M</td>
+                                        <td class="negative">-13.9%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Office</td>
+                                        <td>$110.00M</td>
+                                        <td>$110.00M</td>
+                                        <td>$0.00M</td>
+                                        <td>$130.00M</td>
+                                        <td>$170.00M</td>
+                                        <td class="negative">-$40.00M</td>
+                                        <td class="negative">-30.8%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget vs Actual Chart -->
+                <div class="budget-chart-container">
+                    <h3>Budget vs Actual</h3>
+                    <canvas id="budgetChart"></canvas>
+                </div>
+
+                <!-- Detailed Cost Breakdown -->
+                <div class="cost-breakdown-section">
+                    <h3>Cost Summary</h3>
+                    <table class="detailed-cost-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>PY3 Target</th>
+                                <th>PY3 Actual</th>
+                                <th>Variance</th>
+                                <th>PY4 Target</th>
+                                <th>PY4 Actual Current</th>
+                                <th>PY4 Forecast Remaining</th>
+                                <th>PY4 Forecast Total</th>
+                                <th>Variance</th>
+                                <th>% Var</th>
+                                <th>Consumed Total</th>
+                                <th>Remaining Total</th>
+                                <th>Consumed Prev</th>
+                                <th>Remaining Prev</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Azure SQL MI</td>
+                                <td>$212.64M</td>
+                                <td>$213.04M</td>
+                                <td class="negative">-$0.4M</td>
+                                <td>$239.70M</td>
+                                <td>$114.32M</td>
+                                <td>$146.88M</td>
+                                <td>$261.20M</td>
+                                <td class="negative">-$21.5M</td>
+                                <td class="negative">-9.0%</td>
+                                <td>$327.36M</td>
+                                <td>$408.08M</td>
+                                <td>$287.45M</td>
+                                <td>$448.25M</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
