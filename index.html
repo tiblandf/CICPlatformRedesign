@@ -291,7 +291,6 @@
                                 Insight Opportunities
                             </div>
                             <div class="metric-value">85%</div>
-                            <div class="metric-score">5 of 6 score</div>
                             <div class="metric-detail">High optimization potential in compute resources</div>
                         </div>
                         
@@ -302,102 +301,277 @@
                                 Anomaly Issues
                             </div>
                             <div class="metric-value">15%</div>
-                            <div class="metric-score">1 of 6 score</div>
                             <div class="metric-detail">Minor spikes detected in average costs</div>
                         </div>
                         
-                        <div class="metric-card good">
+                        <div class="metric-card good" data-scroll="costOverviewSection">
                             <span class="metric-status-flag good-flag">Good</span>
                             <div class="metric-label">
                                 <i class="fas fa-chart-line"></i>
                                 Trend Analysis
                             </div>
                             <div class="metric-value">92%</div>
-                            <div class="metric-score">5.5 of 6 score</div>
                             <div class="metric-detail">Positive trending within budget</div>
                         </div>
                         
-                        <div class="metric-card critical" data-navigation="finops" data-scroll="budgetExecutionSection">
+                        <div class="metric-card critical" data-scroll="budgetExecutionSection">
                             <span class="metric-status-flag critical-flag">Critical</span>
                             <div class="metric-label">
                                 <i class="fas fa-dollar-sign"></i>
                                 Budget Execution
                             </div>
                             <div class="metric-value">78%</div>
-                            <div class="metric-score">4.7 of 6 score</div>
                             <div class="metric-detail">Projected to exceed forecast budget by 15%</div>
                         </div>
                         
-                        <div class="metric-card warning">
-                            <span class="metric-status-flag warning-flag">Warning</span>
+                        <div class="metric-card" id="efficiencyCard">
+                            <span class="metric-status-flag" id="efficiencyStatusFlag">Loading</span>
                             <div class="metric-label">
                                 <i class="fas fa-bolt"></i>
                                 Efficiency
                             </div>
-                            <div class="metric-value">67%</div>
-                            <div class="metric-score">4 of 6 score</div>
-                            <div class="metric-detail">Resource optimization plans in progress</div>
+                            <div class="metric-value" id="efficiencyValue">--%</div>
+                            <div class="metric-detail" id="efficiencyDetail">Calculating from project data...</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Budget Execution Section -->
-                <div class="section-header" id="budgetExecutionSection">
-                    <h3>Budget Execution</h3>
-                </div>
-
-                <!-- Budget vs Actuals Chart -->
-                <div class="budget-chart-container">
-                    <h3>Budget vs Actuals</h3>
+                <!-- Budget Overview Chart -->
+                <div class="budget-chart-container" id="budgetExecutionSection">
+                    <h3>Budget Overview</h3>
                     <canvas id="budgetChartLanding" width="400" height="120"></canvas>
                     <button class="show-details-btn" id="showFinOpsDetailsBtn">Show Details</button>
                 </div>
 
+                <!-- Cost Overview Chart -->
+                <div class="cost-overview-container" id="costOverviewSection">
+                    <div class="cost-overview-header">
+                        <h3 id="costOverviewTitle">Cost Overview</h3>
+                        <select id="costOverviewDropdown" class="cost-overview-dropdown">
+                            <option value="overview">Overview</option>
+                            <option value="azure">Azure</option>
+                            <option value="substrate">Substrate</option>
+                            <option value="cosmic">Cosmic</option>
+                            <option value="telemetry">Telemetry</option>
+                        </select>
+                    </div>
+                    <div class="cost-overview-legend" id="costOverviewLegend">
+                        <div class="legend-item"><span class="legend-dot azure"></span> Azure</div>
+                        <div class="legend-item"><span class="legend-dot substrate"></span> Substrate</div>
+                        <div class="legend-item"><span class="legend-dot cosmic"></span> Cosmic</div>
+                        <div class="legend-item"><span class="legend-dot telemetry"></span> Telemetry</div>
+                    </div>
+                    <canvas id="costOverviewChart" width="400" height="200"></canvas>
+                    <button class="show-details-btn hidden" id="costOverviewDetailsBtn">Show Details</button>
+                </div>
+
                 <!-- Insights Panel -->
                 <div class="insights-panel" id="actionableInsightsSection">
-                    <h3>Actionable Insights</h3>
+                    <!-- Toggle Header -->
+                    <div class="landing-insights-toggle">
+                        <button class="landing-toggle-btn active" data-toggle="insights" id="landingInsightsToggle">
+                            <i class="fas fa-lightbulb"></i> Actionable Insights
+                        </button>
+                        <button class="landing-toggle-btn" data-toggle="anomalies" id="landingAnomaliesToggle">
+                            <i class="fas fa-exclamation-triangle"></i> Anomalies
+                        </button>
+                    </div>
                     
-                    <div class="insight-card" data-insight="anomaly1">
-                        <div class="insight-header">
-                            <div class="insight-title-group">
-                                <span class="insight-type anomaly-type">Anomaly</span>
-                                <h4>$36.86M Monthly Automation Cost Increase</h4>
+                    <!-- Actionable Insights Content -->
+                    <div class="landing-toggle-content active" id="landingInsightsContent">
+                        <div class="insight-card" data-insight="insight1">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                    <h4>$15.6M Monthly Saving Opportunity</h4>
+                                </div>
+                                <span class="insight-impact medium-impact">Medium impact</span>
                             </div>
-                            <span class="insight-impact high-impact">High impact</span>
                         </div>
+
+                        <div class="insight-card" data-insight="insight2">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                    <h4>Right-size 16 Over-provisioned Instances</h4>
+                                </div>
+                                <span class="insight-impact high-impact">High impact</span>
+                            </div>
+                        </div>
+
+                        <div class="insight-card" data-insight="insight3">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                    <h4>Consolidate 8 Underutilized Databases</h4>
+                                </div>
+                                <span class="insight-impact medium-impact">Medium impact</span>
+                            </div>
+                        </div>
+
+                        <div class="insight-card" data-insight="insight4">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                    <h4>Optimize Reserved Instance Coverage</h4>
+                                </div>
+                                <span class="insight-impact low-impact">Low impact</span>
+                            </div>
+                        </div>
+
+                        <button class="view-all-btn" id="viewAllInsightsBtn">View All</button>
                     </div>
 
-                    <div class="insight-card" data-insight="insight1">
-                        <div class="insight-header">
-                            <div class="insight-title-group">
-                                <span class="insight-type insight-type-tag">Actionable Insight</span>
-                                <h4>$15.6M Monthly Saving Opportunity</h4>
+                    <!-- Anomalies Content -->
+                    <div class="landing-toggle-content" id="landingAnomaliesContent">
+                        <div class="insight-card" data-insight="anomaly1">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type anomaly-type">Anomaly</span>
+                                    <h4>$36.86M Monthly Automation Cost Increase</h4>
+                                </div>
+                                <span class="insight-impact high-impact">High impact</span>
                             </div>
-                            <span class="insight-impact medium-impact">Medium impact</span>
+                        </div>
+
+                        <div class="insight-card" data-insight="anomaly2">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type anomaly-type">Anomaly</span>
+                                    <h4>Unexpected Spike in Storage Costs</h4>
+                                </div>
+                                <span class="insight-impact medium-impact">Medium impact</span>
+                            </div>
+                        </div>
+
+                        <div class="insight-card" data-insight="anomaly3">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type anomaly-type">Anomaly</span>
+                                    <h4>Network Traffic Surge Detected</h4>
+                                </div>
+                                <span class="insight-impact medium-impact">Medium impact</span>
+                            </div>
+                        </div>
+
+                        <div class="insight-card" data-insight="anomaly4">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type anomaly-type">Anomaly</span>
+                                    <h4>CPU Usage Spike in Substrate</h4>
+                                </div>
+                                <span class="insight-impact low-impact">Low impact</span>
+                            </div>
+                        </div>
+
+                        <button class="view-all-btn" id="viewAllAnomaliesBtn">View All</button>
+                    </div>
+                </div>
+
+                <!-- Efficiency Projects Section -->
+                <div class="efficiency-projects-panel">
+                    <div class="efficiency-projects-header">
+                        <h3>Efficiency Projects</h3>
+                        <span class="efficiency-total-savings">Total Potential Savings: $28.4M</span>
+                    </div>
+                    
+                    <div class="efficiency-categories">
+                        <!-- Virtualized Category -->
+                        <div class="efficiency-category">
+                            <div class="category-header virtualized">
+                                <i class="fas fa-cloud"></i>
+                                <span class="category-title">Virtualized</span>
+                                <span class="category-savings">$12.8M</span>
+                            </div>
+                            <div class="efficiency-items">
+                                <div class="efficiency-item" data-efficiency-page="efficiency-virtualized">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">VM Right-sizing Initiative</span>
+                                        <span class="efficiency-item-savings">$5.2M</span>
+                                    </div>
+                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
+                                </div>
+                                <div class="efficiency-item" data-efficiency-page="efficiency-virtualized">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Reserved Instance Optimization</span>
+                                        <span class="efficiency-item-savings">$4.1M</span>
+                                    </div>
+                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
+                                </div>
+                                <div class="efficiency-item" data-efficiency-page="efficiency-virtualized">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Idle Resource Cleanup</span>
+                                        <span class="efficiency-item-savings">$3.5M</span>
+                                    </div>
+                                    <span class="efficiency-status delayed"><i class="fas fa-exclamation-circle"></i> Delayed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Baremetal Category -->
+                        <div class="efficiency-category">
+                            <div class="category-header baremetal">
+                                <i class="fas fa-server"></i>
+                                <span class="category-title">Baremetal</span>
+                                <span class="category-savings">$9.2M</span>
+                            </div>
+                            <div class="efficiency-items">
+                                <div class="efficiency-item" data-efficiency-page="efficiency-baremetal">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Server Consolidation</span>
+                                        <span class="efficiency-item-savings">$4.8M</span>
+                                    </div>
+                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
+                                </div>
+                                <div class="efficiency-item" data-efficiency-page="efficiency-baremetal">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Power Optimization</span>
+                                        <span class="efficiency-item-savings">$2.6M</span>
+                                    </div>
+                                    <span class="efficiency-status delayed"><i class="fas fa-exclamation-circle"></i> Delayed</span>
+                                </div>
+                                <div class="efficiency-item" data-efficiency-page="efficiency-baremetal">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Hardware Refresh Savings</span>
+                                        <span class="efficiency-item-savings">$1.8M</span>
+                                    </div>
+                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Big Bets Category -->
+                        <div class="efficiency-category">
+                            <div class="category-header bigbets">
+                                <i class="fas fa-rocket"></i>
+                                <span class="category-title">Big Bets</span>
+                                <span class="category-savings">$6.4M</span>
+                            </div>
+                            <div class="efficiency-items">
+                                <div class="efficiency-item" data-efficiency-page="efficiency-bigbets">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Multi-Cloud Migration</span>
+                                        <span class="efficiency-item-savings">$3.2M</span>
+                                    </div>
+                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
+                                </div>
+                                <div class="efficiency-item" data-efficiency-page="efficiency-bigbets">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">AI-Driven Auto-scaling</span>
+                                        <span class="efficiency-item-savings">$2.1M</span>
+                                    </div>
+                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
+                                </div>
+                                <div class="efficiency-item" data-efficiency-page="efficiency-bigbets">
+                                    <div class="efficiency-item-content">
+                                        <span class="efficiency-item-title">Containerization Initiative</span>
+                                        <span class="efficiency-item-savings">$1.1M</span>
+                                    </div>
+                                    <span class="efficiency-status delayed"><i class="fas fa-exclamation-circle"></i> Delayed</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="insight-card" data-insight="anomaly2">
-                        <div class="insight-header">
-                            <div class="insight-title-group">
-                                <span class="insight-type anomaly-type">Anomaly</span>
-                                <h4>Unexpected Spike in Storage Costs</h4>
-                            </div>
-                            <span class="insight-impact medium-impact">Medium impact</span>
-                        </div>
-                    </div>
-
-                    <div class="insight-card" data-insight="insight2">
-                        <div class="insight-header">
-                            <div class="insight-title-group">
-                                <span class="insight-type insight-type-tag">Actionable Insight</span>
-                                <h4>Right-size 16 Over-provisioned Instances</h4>
-                            </div>
-                            <span class="insight-impact high-impact">High impact</span>
-                        </div>
-                    </div>
-
-                    <button class="view-all-btn" id="viewAllInsightsBtn">View All</button>
                 </div>
 
                 <!-- Copilot Chat Panel -->
@@ -770,6 +944,744 @@
                         <i class="fas fa-construction"></i>
                         <h3>Realized Savings Dashboard</h3>
                         <p>This feature is coming soon. Track your implemented cost optimizations and their actual impact.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Substrate Cost Page -->
+            <div id="substrateContent" class="page-content hidden">
+                <div class="substrate-page">
+                    <div class="substrate-header">
+                        <div class="header-title">
+                            <h1>Total Substrate Cost</h1>
+                            <div class="total-cost">$1.138 <span class="cost-label">Total Substrate Cost</span></div>
+                        </div>
+                        <div class="substrate-description">
+                            <p>Substrate Platform Cost Metrics (PCM) is a set of metrics that help partners understand the cost incurred on Substrate platform and inform actionable COGS reduction practices. In this new version of PCM model (v2), we improved the pricing methodology to more accurately reflect the actual cost incurred by the features built on Substrate platform.</p>
+                            <a href="#" class="learn-more-link">Substrate COGS Wiki</a>
+                        </div>
+                    </div>
+
+                    <div class="substrate-metrics-row">
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>Total Transaction Quota</span>
+                            </div>
+                            <div class="metric-value-lg">$17.52M</div>
+                            <div class="metric-detail-sm">Quota Total: $0 | Actual: $1B</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-hdd"></i>
+                                <span>Total Non-Transaction Quota</span>
+                            </div>
+                            <div class="metric-value-lg">$22.18M</div>
+                            <div class="metric-detail-sm">Reserved: $0 | Quota Total: $0</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-box"></i>
+                                <span>Process Hosting</span>
+                            </div>
+                            <div class="metric-value-lg">$20.68M</div>
+                            <div class="metric-detail-sm">vCores: $0</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-network-wired"></i>
+                                <span>ExpressRoute COGS</span>
+                            </div>
+                            <div class="metric-value-lg">$28.45M</div>
+                            <div class="metric-detail-sm">Virt. ER Appliance Cores: $0</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-calculator"></i>
+                                <span>Total Chargeback But Alte</span>
+                            </div>
+                            <div class="metric-value-lg">$14.87M</div>
+                            <div class="metric-detail-sm">$14.87M</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>Total Est Forecasted Sub Cost</span>
+                            </div>
+                            <div class="metric-value-lg">$124.81K</div>
+                            <div class="metric-detail-sm">$124.81K</div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-charts-section">
+                        <div class="chart-donut-section">
+                            <h3>Substrate Cost by Metrics</h3>
+                            <canvas id="substrateDonutChart"></canvas>
+                        </div>
+
+                        <div class="charts-grid">
+                            <div class="chart-item">
+                                <h3>Total Substrate Cost Trends</h3>
+                                <canvas id="substrateTrendsChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Substrate Cost Category Trends</h3>
+                                <canvas id="substrateCategoryChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Substrate COGS Metric Cost Monthly Trends</h3>
+                                <canvas id="substrateMonthlyChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>COGS Trend by Deployment Rings</h3>
+                                <canvas id="substrateRingsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-table-section">
+                        <div class="table-header">
+                            <h3>Substrate Cost</h3>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download CSV</button>
+                        </div>
+                        <div class="substrate-table-scroll">
+                            <table class="substrate-table">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>all</th>
+                                        <th>All</th>
+                                        <th>Total Substrate Cost (7)</th>
+                                        <th>Item-Metrics Cost (7)</th>
+                                        <th>Item-Writes Cost (7)</th>
+                                        <th>Item-Queries Cost (7)</th>
+                                        <th>Item-Reads Cost (7)</th>
+                                        <th>CPU Cost (7)</th>
+                                        <th>Memory Cost (7)</th>
+                                        <th>HDD Storage Cost (7)</th>
+                                        <th>Network Cost (7)</th>
+                                        <th>SSD-MB-Cost (7)</th>
+                                        <th>SSD-Storage (InfCache)</th>
+                                        <th>J-XN-Column</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="#">Substrate Platform Storage</a></td>
+                                        <td>$371.68M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$10.77M</td>
+                                        <td>$8.52M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>http://servicetree</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Substrate Graph Service</a></td>
+                                        <td>$22.16M</td>
+                                        <td>$7.09M</td>
+                                        <td>$4.44M</td>
+                                        <td>$0</td>
+                                        <td>$4.55M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$2.5M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>skype</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Outlook Web (Beta)</a></td>
+                                        <td>$2.97M</td>
+                                        <td>$548.62K</td>
+                                        <td>$186.71K</td>
+                                        <td>$203.87K</td>
+                                        <td>$0</td>
+                                        <td>$933.74K</td>
+                                        <td>$0</td>
+                                        <td>$770.04K</td>
+                                        <td>$1.1M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>ows</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">People Graph Service</a></td>
+                                        <td>$2.27M</td>
+                                        <td>$770.68K</td>
+                                        <td>$831.53K</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$37.44K</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$473.38K</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>peoplegraph</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">SPOCSB</a></td>
+                                        <td>$1.98M</td>
+                                        <td>$177.85K</td>
+                                        <td>$24K</td>
+                                        <td>$12.42K</td>
+                                        <td>$152.92K</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$1.18M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>sharepoint</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Compliance Audit Service</a></td>
+                                        <td>$1.65M</td>
+                                        <td>$734.95K</td>
+                                        <td>$137.51K</td>
+                                        <td>$10.64K</td>
+                                        <td>$663.21K</td>
+                                        <td>$193.14K</td>
+                                        <td>$0</td>
+                                        <td>$273.32K</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>compliance</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">SubstrateIntelDebugCloud</a></td>
+                                        <td>$1.61M</td>
+                                        <td>$0</td>
+                                        <td>$1.08M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>substrate</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">No Service Tree</a></td>
+                                        <td>$2.97M</td>
+                                        <td>$649.63K</td>
+                                        <td>$48.96K</td>
+                                        <td>$283.64K</td>
+                                        <td>$192.07K</td>
+                                        <td>$170.08K</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$1.5M</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>$0</td>
+                                        <td>mappings</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Azure Costs Page -->
+            <div id="azureContent" class="page-content hidden">
+                <div class="substrate-page">
+                    <div class="substrate-header">
+                        <div class="header-title">
+                            <h1>Total Azure Cost</h1>
+                            <div class="total-cost">$374.21M <span class="cost-label">Total Azure Cost</span></div>
+                        </div>
+                        <div class="substrate-description">
+                            <p>Azure Cost Overview provides comprehensive visibility into your Azure cloud spending across all services and regions. Track compute, storage, networking, and database costs to optimize your cloud investment and identify opportunities for cost reduction.</p>
+                            <a href="#" class="learn-more-link">Azure Cost Management Wiki</a>
+                        </div>
+                    </div>
+
+                    <div class="substrate-metrics-row">
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-server"></i>
+                                <span>Public Compute</span>
+                            </div>
+                            <div class="metric-value-lg">$164.42M</div>
+                            <div class="metric-detail-sm">VMs: $142.3M | AKS: $22.12M</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-microchip"></i>
+                                <span>AzSC Compute</span>
+                            </div>
+                            <div class="metric-value-lg">$13.69M</div>
+                            <div class="metric-detail-sm">Reserved: $10.5M | On-Demand: $3.19M</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-database"></i>
+                                <span>Storage Services</span>
+                            </div>
+                            <div class="metric-value-lg">$89.45M</div>
+                            <div class="metric-detail-sm">Blob: $52.3M | Files: $37.15M</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-network-wired"></i>
+                                <span>Networking</span>
+                            </div>
+                            <div class="metric-value-lg">$45.32M</div>
+                            <div class="metric-detail-sm">Bandwidth: $28.1M | VNet: $17.22M</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-table"></i>
+                                <span>Database Services</span>
+                            </div>
+                            <div class="metric-value-lg">$38.21M</div>
+                            <div class="metric-detail-sm">SQL: $25.4M | CosmosDB: $12.81M</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-cogs"></i>
+                                <span>Other Services</span>
+                            </div>
+                            <div class="metric-value-lg">$23.12M</div>
+                            <div class="metric-detail-sm">App Services: $15.2M | Functions: $7.92M</div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-charts-section">
+                        <div class="chart-donut-section">
+                            <h3>Azure Cost by Service</h3>
+                            <canvas id="azureDonutChart"></canvas>
+                        </div>
+
+                        <div class="charts-grid">
+                            <div class="chart-item">
+                                <h3>Total Azure Cost Trends</h3>
+                                <canvas id="azureTrendsChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Azure Cost by Category Trends</h3>
+                                <canvas id="azureCategoryChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Azure Monthly Cost Trends</h3>
+                                <canvas id="azureMonthlyChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Cost by Region</h3>
+                                <canvas id="azureRegionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-table-section">
+                        <div class="table-header">
+                            <h3>Azure Cost Details</h3>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download CSV</button>
+                        </div>
+                        <div class="substrate-table-scroll">
+                            <table class="substrate-table">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Resource Group</th>
+                                        <th>Total Cost</th>
+                                        <th>Compute Cost</th>
+                                        <th>Storage Cost</th>
+                                        <th>Network Cost</th>
+                                        <th>Region</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="#">Azure Virtual Machines</a></td>
+                                        <td>prod-compute-rg</td>
+                                        <td>$142.3M</td>
+                                        <td>$138.2M</td>
+                                        <td>$2.8M</td>
+                                        <td>$1.3M</td>
+                                        <td>West US 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Azure Kubernetes Service</a></td>
+                                        <td>prod-aks-rg</td>
+                                        <td>$22.12M</td>
+                                        <td>$19.4M</td>
+                                        <td>$1.72M</td>
+                                        <td>$1.0M</td>
+                                        <td>East US 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Azure Blob Storage</a></td>
+                                        <td>prod-storage-rg</td>
+                                        <td>$52.3M</td>
+                                        <td>$0</td>
+                                        <td>$52.3M</td>
+                                        <td>$0</td>
+                                        <td>West US 2</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Azure SQL Database</a></td>
+                                        <td>prod-sql-rg</td>
+                                        <td>$25.4M</td>
+                                        <td>$18.2M</td>
+                                        <td>$7.2M</td>
+                                        <td>$0</td>
+                                        <td>Central US</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Azure CosmosDB</a></td>
+                                        <td>prod-cosmos-rg</td>
+                                        <td>$12.81M</td>
+                                        <td>$9.5M</td>
+                                        <td>$3.31M</td>
+                                        <td>$0</td>
+                                        <td>Multi-region</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COSMIC Cost Page -->
+            <div id="cosmicContent" class="page-content hidden">
+                <div class="substrate-page">
+                    <div class="substrate-header">
+                        <div class="header-title">
+                            <h1>Total COSMIC Cost</h1>
+                            <div class="total-cost">$38.31M <span class="cost-label">Total COSMIC Cost</span></div>
+                        </div>
+                        <div class="substrate-description">
+                            <p>COSMIC (Cloud-Optimized Search & Machine Intelligence Computing) provides enterprise-scale search and AI capabilities. Monitor your search index costs, query processing expenses, and data ingestion charges to optimize your intelligent search infrastructure.</p>
+                            <a href="#" class="learn-more-link">COSMIC Documentation</a>
+                        </div>
+                    </div>
+
+                    <div class="substrate-metrics-row">
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-search"></i>
+                                <span>Search Index</span>
+                            </div>
+                            <div class="metric-value-lg">$14.82M</div>
+                            <div class="metric-detail-sm">Partitions: 128 | Replicas: 3</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-cogs"></i>
+                                <span>Query Processing</span>
+                            </div>
+                            <div class="metric-value-lg">$10.45M</div>
+                            <div class="metric-detail-sm">Queries/Day: 2.4B</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-upload"></i>
+                                <span>Data Ingestion</span>
+                            </div>
+                            <div class="metric-value-lg">$7.52M</div>
+                            <div class="metric-detail-sm">Documents: 45B | Updates: 1.2B/day</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-hdd"></i>
+                                <span>Storage</span>
+                            </div>
+                            <div class="metric-value-lg">$3.68M</div>
+                            <div class="metric-detail-sm">Total: 850TB | Hot: 120TB</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-brain"></i>
+                                <span>ML Processing</span>
+                            </div>
+                            <div class="metric-value-lg">$1.24M</div>
+                            <div class="metric-detail-sm">Models: 24 | Inferences: 580M/day</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Security & Compliance</span>
+                            </div>
+                            <div class="metric-value-lg">$0.60M</div>
+                            <div class="metric-detail-sm">Encryption: AES-256</div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-charts-section">
+                        <div class="chart-donut-section">
+                            <h3>COSMIC Cost by Component</h3>
+                            <canvas id="cosmicDonutChart"></canvas>
+                        </div>
+
+                        <div class="charts-grid">
+                            <div class="chart-item">
+                                <h3>Total COSMIC Cost Trends</h3>
+                                <canvas id="cosmicTrendsChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>COSMIC Cost by Category Trends</h3>
+                                <canvas id="cosmicCategoryChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Query Volume & Cost Correlation</h3>
+                                <canvas id="cosmicQueryChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Index Growth Trends</h3>
+                                <canvas id="cosmicIndexChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-table-section">
+                        <div class="table-header">
+                            <h3>COSMIC Cost Details</h3>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download CSV</button>
+                        </div>
+                        <div class="substrate-table-scroll">
+                            <table class="substrate-table">
+                                <thead>
+                                    <tr>
+                                        <th>Index Name</th>
+                                        <th>Document Count</th>
+                                        <th>Storage Size</th>
+                                        <th>Query Cost</th>
+                                        <th>Ingestion Cost</th>
+                                        <th>Total Cost</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="#">Enterprise Search Index</a></td>
+                                        <td>12.5B</td>
+                                        <td>280TB</td>
+                                        <td>$4.2M</td>
+                                        <td>$2.8M</td>
+                                        <td>$8.92M</td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">People Search Index</a></td>
+                                        <td>2.1B</td>
+                                        <td>85TB</td>
+                                        <td>$2.1M</td>
+                                        <td>$1.4M</td>
+                                        <td>$4.52M</td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Content Index</a></td>
+                                        <td>18.2B</td>
+                                        <td>320TB</td>
+                                        <td>$3.8M</td>
+                                        <td>$2.2M</td>
+                                        <td>$7.84M</td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Graph Knowledge Index</a></td>
+                                        <td>8.4B</td>
+                                        <td>120TB</td>
+                                        <td>$2.5M</td>
+                                        <td>$1.6M</td>
+                                        <td>$5.12M</td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telemetry Cost Page -->
+            <div id="telemetryContent" class="page-content hidden">
+                <div class="substrate-page">
+                    <div class="substrate-header">
+                        <div class="header-title">
+                            <h1>Total Telemetry Cost</h1>
+                            <div class="total-cost">$64.08M <span class="cost-label">Total Telemetry Cost</span></div>
+                        </div>
+                        <div class="substrate-description">
+                            <p>Telemetry Cost Dashboard provides visibility into your observability and monitoring infrastructure costs. Track spending across Cosmos, Kusto, Geneva, Blueshift, and other telemetry services to optimize your data collection and analysis investments.</p>
+                            <a href="#" class="learn-more-link">Telemetry Platform Wiki</a>
+                        </div>
+                    </div>
+
+                    <div class="substrate-metrics-row">
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-globe"></i>
+                                <span>Cosmos</span>
+                            </div>
+                            <div class="metric-value-lg">$20.75M</div>
+                            <div class="metric-detail-sm">Streams: 1,245 | TB/day: 8.5</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-database"></i>
+                                <span>Kusto (ADX)</span>
+                            </div>
+                            <div class="metric-value-lg">$27.05M</div>
+                            <div class="metric-detail-sm">Clusters: 42 | Queries: 15M/day</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-chart-area"></i>
+                                <span>Geneva MDS</span>
+                            </div>
+                            <div class="metric-value-lg">$7.92M</div>
+                            <div class="metric-detail-sm">Metrics: 2.8B | Logs: 45TB/day</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Geneva MDM</span>
+                            </div>
+                            <div class="metric-value-lg">$3.48M</div>
+                            <div class="metric-detail-sm">Dashboards: 1,850</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-bolt"></i>
+                                <span>Blueshift</span>
+                            </div>
+                            <div class="metric-value-lg">$3.82M</div>
+                            <div class="metric-detail-sm">Pipelines: 328</div>
+                        </div>
+                        <div class="metric-card-sm">
+                            <div class="metric-header-sm">
+                                <i class="fas fa-eye"></i>
+                                <span>Passive Monitoring</span>
+                            </div>
+                            <div class="metric-value-lg">$1.06M</div>
+                            <div class="metric-detail-sm">Probes: 12,500</div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-charts-section">
+                        <div class="chart-donut-section">
+                            <h3>Telemetry Cost by Service</h3>
+                            <canvas id="telemetryDonutChart"></canvas>
+                        </div>
+
+                        <div class="charts-grid">
+                            <div class="chart-item">
+                                <h3>Total Telemetry Cost Trends</h3>
+                                <canvas id="telemetryTrendsChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Telemetry Cost by Service Trends</h3>
+                                <canvas id="telemetryCategoryChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Data Ingestion Volume Trends</h3>
+                                <canvas id="telemetryIngestionChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h3>Query & Storage Cost Trends</h3>
+                                <canvas id="telemetryStorageChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="substrate-table-section">
+                        <div class="table-header">
+                            <h3>Telemetry Cost Details</h3>
+                            <button class="download-btn"><i class="fas fa-download"></i> Download CSV</button>
+                        </div>
+                        <div class="substrate-table-scroll">
+                            <table class="substrate-table">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Data Volume</th>
+                                        <th>Retention</th>
+                                        <th>Ingestion Cost</th>
+                                        <th>Query Cost</th>
+                                        <th>Storage Cost</th>
+                                        <th>Total Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="#">Kusto West US Cluster</a></td>
+                                        <td>2.5TB/day</td>
+                                        <td>90 days</td>
+                                        <td>$8.2M</td>
+                                        <td>$6.5M</td>
+                                        <td>$3.8M</td>
+                                        <td>$18.5M</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Cosmos Production Stream</a></td>
+                                        <td>5.2TB/day</td>
+                                        <td>30 days</td>
+                                        <td>$12.4M</td>
+                                        <td>$4.2M</td>
+                                        <td>$4.15M</td>
+                                        <td>$20.75M</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Geneva Metrics Pipeline</a></td>
+                                        <td>850GB/day</td>
+                                        <td>365 days</td>
+                                        <td>$3.2M</td>
+                                        <td>$2.8M</td>
+                                        <td>$1.92M</td>
+                                        <td>$7.92M</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Blueshift Analytics</a></td>
+                                        <td>420GB/day</td>
+                                        <td>60 days</td>
+                                        <td>$1.8M</td>
+                                        <td>$1.2M</td>
+                                        <td>$0.82M</td>
+                                        <td>$3.82M</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">Geneva MDM Cluster</a></td>
+                                        <td>280GB/day</td>
+                                        <td>180 days</td>
+                                        <td>$1.4M</td>
+                                        <td>$1.28M</td>
+                                        <td>$0.8M</td>
+                                        <td>$3.48M</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
