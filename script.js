@@ -205,29 +205,52 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Metric card navigation
+    // Efficiency category header click handlers
+    const categoryHeaders = document.querySelectorAll('.category-header[data-efficiency-page]');
+    categoryHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const pageType = this.getAttribute('data-efficiency-page');
+            if (pageType === 'efficiency-virtualized') {
+                showEfficiencyVirtualized();
+            } else if (pageType === 'efficiency-baremetal') {
+                showEfficiencyBaremetal();
+            } else if (pageType === 'efficiency-bigbets') {
+                showEfficiencyBigbets();
+            }
+        });
+    });
+
+    // Metric card navigation - toggle sections on click
     const metricCards = document.querySelectorAll('.metric-card');
     metricCards.forEach(card => {
         card.addEventListener('click', function() {
             const scrollTarget = this.getAttribute('data-scroll');
             const navigation = this.getAttribute('data-navigation');
             
-            // Priority 1: If there's a scroll target, scroll to it on the same page
             if (scrollTarget) {
                 const targetElement = document.getElementById(scrollTarget);
                 if (targetElement) {
-                    // Switch the toggle based on navigation type before scrolling
-                    if (navigation === 'insights-savings') {
-                        switchLandingInsightsView('insights');
-                    } else if (navigation === 'insights-anomalies') {
-                        switchLandingInsightsView('anomalies');
+                    const isCurrentlyHidden = targetElement.classList.contains('section-hidden');
+                    
+                    if (isCurrentlyHidden) {
+                        // Show the section
+                        targetElement.classList.remove('section-hidden');
+                        this.classList.add('card-selected');
+                        
+                        // Smooth scroll to the newly revealed section
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 50);
+                    } else {
+                        // Hide the section
+                        targetElement.classList.add('section-hidden');
+                        this.classList.remove('card-selected');
                     }
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-                return; // Don't navigate to another page
+                return;
             }
             
-            // Priority 2: Handle navigation to other pages only if no scroll target
+            // Fallback: Handle navigation to other pages only if no scroll target
             if (navigation === 'insights-savings') {
                 // Go to Insights Portal - Potential Savings tab
                 document.querySelectorAll('.nav-item').forEach(item => {
@@ -730,6 +753,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show dashboard content
         if (dashboardContent) dashboardContent.classList.remove('hidden');
         
+        // Reset all togglable sections to hidden and deselect cards
+        resetDashboardSections();
+        
         // Update user greeting
         if (userGreeting) {
             userGreeting.textContent = currentUser.displayName;
@@ -742,6 +768,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Apply persona-specific customizations
         applyPersonaCustomizations();
+    }
+
+    // Reset dashboard sections to default hidden state
+    function resetDashboardSections() {
+        const toggleableSections = ['insightsSection', 'anomaliesSection', 'costOverviewSection', 'budgetExecutionSection', 'efficiencyProjectsSection'];
+        toggleableSections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) section.classList.add('section-hidden');
+        });
+        document.querySelectorAll('.metric-card.card-selected').forEach(card => {
+            card.classList.remove('card-selected');
+        });
     }
 
     // Show Insights Portal
@@ -1059,70 +1097,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update Efficiency Card from Projects Data
     function updateEfficiencyCardFromProjects() {
-        const efficiencyItems = document.querySelectorAll('.efficiency-item');
         const efficiencyCard = document.getElementById('efficiencyCard');
-        const efficiencyValue = document.getElementById('efficiencyValue');
-        const efficiencyDetail = document.getElementById('efficiencyDetail');
+        const efficiencyAchieved = document.getElementById('efficiencyAchieved');
+        const efficiencyTarget = document.getElementById('efficiencyTarget');
+        const efficiencyProgressFill = document.getElementById('efficiencyProgressFill');
+        const efficiencyProgressLabel = document.getElementById('efficiencyProgressLabel');
         const efficiencyStatusFlag = document.getElementById('efficiencyStatusFlag');
         
-        if (!efficiencyItems.length || !efficiencyCard) return;
+        if (!efficiencyCard) return;
         
+        // Compute stats from efficiencyTypeData
         let onTrackCount = 0;
         let delayedCount = 0;
-        let totalSavings = 0;
-        let onTrackSavings = 0;
-        
-        efficiencyItems.forEach(item => {
-            const statusEl = item.querySelector('.efficiency-status');
-            const savingsEl = item.querySelector('.efficiency-item-savings');
-            
-            // Parse savings value
-            let savings = 0;
-            if (savingsEl) {
-                const savingsText = savingsEl.textContent.replace('$', '').replace('M', '');
-                savings = parseFloat(savingsText) || 0;
-            }
-            totalSavings += savings;
-            
-            if (statusEl) {
-                if (statusEl.classList.contains('on-track')) {
-                    onTrackCount++;
-                    onTrackSavings += savings;
-                } else if (statusEl.classList.contains('delayed')) {
-                    delayedCount++;
-                }
+        const allTypes = ['bigbets', 'baremetal', 'virtualized'];
+        allTypes.forEach(type => {
+            const data = efficiencyTypeData[type];
+            if (data && data.rows) {
+                data.rows.forEach(row => {
+                    if (row.status === 'on-track') onTrackCount++;
+                    else delayedCount++;
+                });
             }
         });
         
         const totalProjects = onTrackCount + delayedCount;
-        const efficiencyPercent = totalProjects > 0 ? Math.round((onTrackCount / totalProjects) * 100) : 0;
+        const progressPercent = totalProjects > 0 ? Math.round((onTrackCount / totalProjects) * 100) : 0;
         
         // Update card elements
-        if (efficiencyValue) {
-            efficiencyValue.textContent = efficiencyPercent + '%';
+        if (efficiencyAchieved) {
+            efficiencyAchieved.textContent = onTrackCount + '';
+        }
+        if (efficiencyTarget) {
+            efficiencyTarget.textContent = '/ ' + totalProjects + ' Projects On Track';
+        }
+        if (efficiencyProgressFill) {
+            efficiencyProgressFill.style.width = progressPercent + '%';
+        }
+        if (efficiencyProgressLabel) {
+            efficiencyProgressLabel.textContent = progressPercent + '% of projects on track (' + onTrackCount + ' of ' + totalProjects + ')';
         }
         
-        if (efficiencyDetail) {
-            efficiencyDetail.textContent = `${onTrackCount} of ${totalProjects} projects on track ($${onTrackSavings.toFixed(1)}M)`;
-        }
-        
-        // Update status flag and card styling based on score
-        if (efficiencyStatusFlag && efficiencyCard) {
-            efficiencyCard.classList.remove('critical', 'warning', 'good');
-            efficiencyStatusFlag.classList.remove('critical-flag', 'warning-flag', 'good-flag');
-            
-            if (efficiencyPercent >= 80) {
-                efficiencyCard.classList.add('good');
-                efficiencyStatusFlag.classList.add('good-flag');
-                efficiencyStatusFlag.textContent = 'Good';
-            } else if (efficiencyPercent >= 50) {
-                efficiencyCard.classList.add('warning');
-                efficiencyStatusFlag.classList.add('warning-flag');
-                efficiencyStatusFlag.textContent = 'Warning';
+        // Show Action Required flag if less than 80% on track
+        if (efficiencyStatusFlag) {
+            if (progressPercent < 80) {
+                efficiencyStatusFlag.className = 'metric-status-flag action-needed-flag';
+                efficiencyStatusFlag.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Action Required';
+                efficiencyCard.classList.add('card-action-required');
+                efficiencyCard.classList.remove('card-no-action');
             } else {
-                efficiencyCard.classList.add('critical');
-                efficiencyStatusFlag.classList.add('critical-flag');
-                efficiencyStatusFlag.textContent = 'Critical';
+                efficiencyStatusFlag.className = 'metric-status-flag';
+                efficiencyStatusFlag.innerHTML = '';
+                efficiencyCard.classList.add('card-no-action');
+                efficiencyCard.classList.remove('card-action-required');
             }
         }
     }
@@ -1137,6 +1163,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize Cost Overview Chart for Landing Page
         initializeCostOverviewChart();
+        
+        // Initialize Efficiency Type Cards
+        initializeEfficiencyTypeCards();
         
         // Check if charts exist before initializing
         const totalCostCanvas = document.getElementById('totalCostChart');
@@ -1833,7 +1862,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cost overview data for all views
     const costOverviewData = {
         overview: {
-            title: 'Cost Overview',
+            title: 'All Services — Cost Overview',
             labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
             datasets: [
                 { label: 'Azure', data: [42.5, 44.2, 43.8, 46.1, 47.3, 45.9, 48.2, 49.1, 51.3, 52.8, 54.2, 55.1], color: '#0078d4', legendClass: 'azure' },
@@ -1892,11 +1921,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Set up dropdown event listener
-        const dropdown = document.getElementById('costOverviewDropdown');
-        if (dropdown) {
-            dropdown.addEventListener('change', function() {
-                updateCostOverviewChart(this.value);
+        // Set up card selector event listeners
+        const cardsContainer = document.getElementById('costOverviewCards');
+        if (cardsContainer) {
+            cardsContainer.querySelectorAll('.cost-overview-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    cardsContainer.querySelectorAll('.cost-overview-card').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    updateCostOverviewChart(this.getAttribute('data-view'));
+                });
             });
         }
 
@@ -2009,8 +2042,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update title
         const titleElement = document.getElementById('costOverviewTitle');
+        const clickedCard = document.querySelector('.cost-overview-card[data-view="' + viewKey + '"]');
+        const cardLabel = clickedCard ? clickedCard.getAttribute('data-label') : viewKey;
         if (titleElement) {
-            titleElement.textContent = viewData.title;
+            titleElement.textContent = 'Cost Overview - ' + cardLabel;
         }
         
         // Update legend
@@ -2047,6 +2082,228 @@ document.addEventListener('DOMContentLoaded', function() {
         }));
         
         costOverviewChart.update();
+    }
+
+    // Efficiency type card data for the unified table
+    const efficiencyTypeData = {
+        bigbets: {
+            title: 'Efficiency Projects — Big Bets',
+            savingsLabel: 'Savings Opportunity: $6.4M',
+            showSavings: true,
+            rows: [
+                { group: 'AI Infrastructure Scaling (1)', id: '31', planId: 'GPU Cluster', workload: 'AI Services', resource: 'GPU', status: 'on-track', confidence: 'High', submitted: '04/10/2024', target: '09/30/2025', submissionStatus: 'Approved', owner: 'alex.kim@microsoft.com', platform: 'Azure', uom: 'GPUs', category: 'Strategic', savings: '$2.1M' },
+                { group: 'Global CDN Expansion (1)', id: '32', planId: 'Edge Network', workload: 'Content Delivery', resource: 'Bandwidth', status: 'on-track', confidence: 'High', submitted: '03/18/2024', target: '08/15/2025', submissionStatus: 'Approved', owner: 'lisa.wong@microsoft.com', platform: 'Multi-Cloud', uom: 'Gbps', category: 'Strategic', savings: '$1.8M' },
+                { group: 'Quantum Computing R&D (1)', id: '33', planId: 'Quantum Lab', workload: 'Quantum Research', resource: 'Qubits', status: 'delayed', confidence: 'High', submitted: '02/28/2024', target: '12/31/2025', submissionStatus: 'Approved', owner: 'david.lee@microsoft.com', platform: 'Research', uom: 'Qubits', category: 'Innovation', savings: '$0.9M' },
+                { group: 'Sovereign Cloud Initiative (1)', id: '34', planId: 'Regional Cloud', workload: 'Government', resource: 'Datacenter', status: 'on-track', confidence: 'High', submitted: '05/20/2024', target: '10/30/2025', submissionStatus: 'Approved', owner: 'emma.davis@microsoft.com', platform: 'Sovereign', uom: 'Regions', category: 'Strategic', savings: '$1.0M' },
+                { group: 'Sustainability Carbon Neutral (1)', id: '35', planId: 'Green Energy', workload: 'Sustainability', resource: 'Renewable', status: 'on-track', confidence: 'High', submitted: '01/15/2024', target: '12/31/2025', submissionStatus: 'Approved', owner: 'jordan.patel@microsoft.com', platform: 'Global', uom: 'MW', category: 'Environmental', savings: '$0.6M' }
+            ]
+        },
+        baremetal: {
+            title: 'Efficiency Projects — Baremetal',
+            savingsLabel: 'Resource Utilization Optimization',
+            showSavings: false,
+            rows: [
+                { group: 'Hardware Refresh Optimization (1)', id: '21', planId: 'Physical Server', workload: 'Exchange', resource: 'Compute', status: 'on-track', confidence: 'High', submitted: '05/14/2024', target: '03/15/2025', submissionStatus: 'Approved', owner: 'sarah.chen@microsoft.com', platform: 'On-Prem', uom: 'Servers', category: 'Hardware' },
+                { group: 'Power Efficiency Initiative (1)', id: '22', planId: 'Physical Server', workload: 'SharePoint', resource: 'Storage', status: 'delayed', confidence: 'High', submitted: '07/22/2024', target: '12/20/2024', submissionStatus: 'Approved', owner: 'mike.roberts@microsoft.com', platform: 'On-Prem', uom: 'Watts', category: 'Energy' },
+                { group: 'Datacenter Consolidation (1)', id: '23', planId: 'Physical Server', workload: 'Teams', resource: 'Network', status: 'on-track', confidence: 'High', submitted: '08/05/2024', target: '06/30/2025', submissionStatus: 'Approved', owner: 'priya.sharma@microsoft.com', platform: 'On-Prem', uom: 'Racks', category: 'Infrastructure' }
+            ]
+        },
+        virtualized: {
+            title: 'Efficiency Projects — Virtualized',
+            savingsLabel: 'Resource Utilization Optimization',
+            showSavings: false,
+            rows: [
+                { group: 'Create Services: VM right sizing (1)', id: '14', planId: 'vCore', workload: '', resource: '', status: 'delayed', confidence: 'High', submitted: '06/19/2024', target: '07/01/2025', submissionStatus: 'Approved', owner: 'juanvi@microsoft.com', platform: 'Public', uom: 'Cores', category: 'Demands' },
+                { group: 'Substrate Growth Reduction (1)', id: '16', planId: 'vCore', workload: '', resource: '', status: 'delayed', confidence: 'High', submitted: '09/11/2024', target: '01/01/2025', submissionStatus: 'Approved', owner: 'jongelez@microsoft.com', platform: 'Public', uom: 'Cores', category: 'Demands' },
+                { group: 'Substrate Growth Reduction 2 (1)', id: '17', planId: 'vCore', workload: '', resource: '', status: 'on-track', confidence: 'High', submitted: '09/11/2024', target: '11/01/2024', submissionStatus: 'Approved', owner: 'jongelez@microsoft.com', platform: 'Public', uom: 'Cores', category: 'Demands' },
+                { group: 'OCS Efficiencies (1)', id: '18', planId: 'vCore', workload: '', resource: '', status: 'delayed', confidence: 'High', submitted: '10/31/2024', target: '11/01/2025', submissionStatus: 'Approved', owner: 'mansingh@microsoft.com', platform: 'Public', uom: 'Cores', category: 'Demands' }
+            ]
+        }
+    };
+
+    function initializeEfficiencyTypeCards() {
+        const cardsContainer = document.getElementById('efficiencyTypeCards');
+        if (!cardsContainer) return;
+
+        cardsContainer.querySelectorAll('.cost-overview-card').forEach(card => {
+            card.addEventListener('click', function() {
+                cardsContainer.querySelectorAll('.cost-overview-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                renderEfficiencyTable(this.getAttribute('data-efficiency-type'));
+            });
+        });
+
+        // Default to Big Bets
+        renderEfficiencyTable('bigbets');
+    }
+
+    function renderEfficiencyTable(typeKey) {
+        const data = efficiencyTypeData[typeKey];
+        if (!data) return;
+
+        const titleEl = document.getElementById('efficiencyTableTitle');
+        const savingsEl = document.getElementById('efficiencyTableSavings');
+        const container = document.getElementById('efficiencyTableContainer');
+
+        if (titleEl) titleEl.textContent = data.title;
+        if (savingsEl) {
+            savingsEl.textContent = data.savingsLabel;
+            if (data.showSavings) {
+                savingsEl.style.color = '#107c10';
+                savingsEl.style.background = '#e6f4ea';
+            } else {
+                savingsEl.style.color = '#0078d4';
+                savingsEl.style.background = '#e8f2fc';
+            }
+        }
+
+        const hasSavings = data.showSavings;
+        const headers = ['', '', 'Name', 'Plan ID', 'Workload', 'Resource', 'Status', 'Confidence', 'Submission date', 'Target date', 'Submission status', 'Owner', 'Platform', 'Resource UOM', 'Category'];
+        if (hasSavings) headers.push('Savings');
+        const colSpan = headers.length;
+
+        let html = '<table class="efficiency-table"><thead><tr>';
+        html += '<th><input type="checkbox"></th><th></th>';
+        html += headers.slice(2).map(h => '<th>' + h + '</th>').join('');
+        html += '</tr></thead><tbody>';
+
+        data.rows.forEach((row, idx) => {
+            const statusClass = row.status === 'on-track' ? 'on-track' : 'delayed';
+            const statusIcon = row.status === 'on-track' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+            const statusText = row.status === 'on-track' ? 'On track' : 'Delayed';
+
+            html += '<tr class="group-row"><td colspan="' + colSpan + '">';
+            html += '<i class="fas fa-chevron-down"></i> ';
+            html += '<span class="group-name">' + row.group + '</span></td></tr>';
+
+            html += '<tr class="efficiency-data-row" data-eff-type="' + typeKey + '" data-row-index="' + idx + '">';
+            html += '<td><input type="checkbox"></td>';
+            html += '<td><i class="fas fa-ellipsis-v row-menu"></i></td>';
+            html += '<td>' + row.id + '</td>';
+            html += '<td>' + row.planId + '</td>';
+            html += '<td>' + row.workload + '</td>';
+            html += '<td>' + row.resource + '</td>';
+            html += '<td><span class="status-badge ' + statusClass + '"><i class="fas ' + statusIcon + '"></i> ' + statusText + '</span></td>';
+            html += '<td><span class="confidence-badge high">' + row.confidence + '</span></td>';
+            html += '<td>' + row.submitted + '</td>';
+            html += '<td>' + row.target + '</td>';
+            html += '<td class="status-approved"><i class="fas fa-check-circle"></i> ' + row.submissionStatus + '</td>';
+            html += '<td>' + row.owner + '</td>';
+            html += '<td>' + row.platform + '</td>';
+            html += '<td>' + row.uom + '</td>';
+            html += '<td>' + row.category + '</td>';
+            if (hasSavings) html += '<td class="savings-cell">' + row.savings + '</td>';
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        if (container) {
+            container.innerHTML = html;
+            // Attach row click handlers for flyout
+            container.querySelectorAll('tr[data-eff-type]').forEach(function(tr) {
+                tr.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'INPUT') return;
+                    const type = this.getAttribute('data-eff-type');
+                    const idx = parseInt(this.getAttribute('data-row-index'), 10);
+                    const rowData = efficiencyTypeData[type] && efficiencyTypeData[type].rows[idx];
+                    if (rowData) showEfficiencyProjectFlyout(rowData, type);
+                });
+            });
+            // Add Show Details button after the table container (as sibling, not inside)
+            let detailsBtn = document.getElementById('efficiencyShowDetailsBtn');
+            if (!detailsBtn) {
+                detailsBtn = document.createElement('button');
+                detailsBtn.className = 'show-details-btn';
+                detailsBtn.id = 'efficiencyShowDetailsBtn';
+                detailsBtn.textContent = 'Show Details';
+                container.parentNode.appendChild(detailsBtn);
+            }
+            detailsBtn.onclick = function() {
+                navigateToEfficiencyTracker(typeKey);
+            };
+        }
+    }
+
+    function showEfficiencyProjectFlyout(row, typeKey) {
+        const statusText = row.status === 'on-track' ? 'On Track' : 'Delayed';
+        const statusClass = row.status === 'on-track' ? 'on-track' : 'delayed';
+        const typeName = typeKey === 'bigbets' ? 'Big Bets' : typeKey === 'baremetal' ? 'Baremetal' : 'Virtualized';
+
+        flyoutTitle.textContent = 'Project Details';
+
+        let bodyHTML = '<div class="flyout-info-grid">';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Project Name</div><div class="flyout-info-value">' + row.group.replace(/ \(\d+\)$/, '') + '</div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Status</div><div class="flyout-info-value"><span class="status-badge ' + statusClass + '"><i class="fas ' + (row.status === 'on-track' ? 'fa-check-circle' : 'fa-exclamation-triangle') + '"></i> ' + statusText + '</span></div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Category</div><div class="flyout-info-value">' + typeName + '</div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Confidence</div><div class="flyout-info-value"><span class="confidence-badge high">' + row.confidence + '</span></div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Owner</div><div class="flyout-info-value">' + row.owner + '</div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Platform</div><div class="flyout-info-value">' + row.platform + '</div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Submission Date</div><div class="flyout-info-value">' + row.submitted + '</div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Target Date</div><div class="flyout-info-value">' + row.target + '</div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Submission Status</div><div class="flyout-info-value"><span class="status-approved"><i class="fas fa-check-circle"></i> ' + row.submissionStatus + '</span></div></div>';
+        bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Resource UOM</div><div class="flyout-info-value">' + row.uom + '</div></div>';
+        if (row.workload) {
+            bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Workload</div><div class="flyout-info-value">' + row.workload + '</div></div>';
+        }
+        if (row.resource) {
+            bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Resource</div><div class="flyout-info-value">' + row.resource + '</div></div>';
+        }
+        if (row.savings) {
+            bodyHTML += '<div class="flyout-info-item"><div class="flyout-info-label">Savings Opportunity</div><div class="flyout-info-value" style="color: #107c10; font-weight: 600;">' + row.savings + '</div></div>';
+        }
+        bodyHTML += '</div>';
+
+        bodyHTML += '<div class="flyout-divider"></div>';
+        bodyHTML += '<div class="flyout-section"><h4>Plan Details</h4>';
+        bodyHTML += '<p>Plan ID: <strong>' + row.planId + '</strong></p>';
+        bodyHTML += '<p>Category: <strong>' + row.category + '</strong></p>';
+        bodyHTML += '</div>';
+
+        bodyHTML += '<div class="flyout-divider"></div>';
+        bodyHTML += '<div class="flyout-section"><h4>Take Action</h4>';
+        bodyHTML += '<p>Review the project details and update status as needed.</p>';
+        bodyHTML += '<button class="flyout-action-btn primary-btn">Update Status</button>';
+        bodyHTML += '<button class="flyout-action-btn secondary-btn">Close</button>';
+        bodyHTML += '</div>';
+
+        flyoutBody.innerHTML = bodyHTML;
+        insightFlyout.classList.add('active');
+
+        const secondaryBtn = flyoutBody.querySelector('.secondary-btn');
+        if (secondaryBtn) {
+            secondaryBtn.addEventListener('click', hideInsightFlyout);
+        }
+    }
+
+    function navigateToEfficiencyTracker(typeKey) {
+        const navMap = {
+            'bigbets': { action: showEfficiencyBigbets, page: 'efficiency-bigbets' },
+            'baremetal': { action: showEfficiencyBaremetal, page: 'efficiency-baremetal' },
+            'virtualized': { action: showEfficiencyVirtualized, page: 'efficiency-virtualized' }
+        };
+        const nav = navMap[typeKey];
+        if (!nav) return;
+
+        // Update sidebar
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        document.querySelectorAll('.nav-category').forEach(item => item.classList.remove('active'));
+        const effItems = document.getElementById('efficiency-items');
+        if (effItems) {
+            effItems.classList.remove('collapsed');
+            const parentCat = document.querySelector('[data-target="efficiency-items"]');
+            if (parentCat) {
+                parentCat.classList.add('active');
+                const icon = parentCat.querySelector('.expand-icon');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                }
+            }
+        }
+        const subcategory = document.querySelector('.nav-subcategory[data-page="' + nav.page + '"]');
+        if (subcategory) subcategory.classList.add('active');
+
+        nav.action();
     }
 
     // Handle Cost Overview "Show Details" button navigation

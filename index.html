@@ -257,21 +257,20 @@
                 <!-- Executive Summary Section -->
                 <div class="executive-summary">
                     <div class="summary-header">
-                        <h2><i class="fas fa-exclamation-triangle"></i> TL;DR Executive Summary</h2>
+                        <h2><i class="fas fa-exclamation-triangle"></i> Executive Summary</h2>
                         <span class="ai-generated-badge">AI Generated</span>
                     </div>
                     <div class="summary-content">
-                        <p><strong>Project: Java Infrastructure</strong> requires immediate attention with 2 critical areas flagged.</p>
-                        <p><strong>Budget variance of 15%</strong> primarily driven by compute resource scaling exceeding forecasts.</p>
-                        <p><strong>Optimization opportunities identified</strong> that could save $2.3M~4.2K monthly.</p>
+                        <p><strong>Budget is $3,761 over target</strong> — compute scaling costs exceeded forecast by 15%, driving the current overage.</p>
+                        <p><strong>Monthly spend trending at $200K</strong> against a $250K forecast, with actuals accelerating due to unplanned infrastructure growth.</p>
+                        <p><strong>$1,239 in potential monthly savings identified</strong> across 10 optimization recommendations not yet actioned.</p>
                         
                         <div class="recommended-actions">
                             <h4>Recommended Actions:</h4>
                             <ul>
-                                <li>Implement automated controls for compute scaling</li>
-                                <li>Right-size over-provisioned instances (16 identified)</li>
-                                <li>Review and adjust budget forecasting models</li>
-                                <li>Execute efficiency plans for resource optimization</li>
+                                <li><strong>Insights:</strong> Act on 10 cost-saving recommendations to recover $1,239/mo — right-size 16 over-provisioned instances and eliminate idle resources</li>
+                                <li><strong>Anomalies:</strong> Investigate 3 flagged anomalies ($1,155 impact) — unexpected compute spikes and storage cost deviations need review</li>
+                                <li><strong>Efficiency:</strong> Advance stalled efficiency projects — only 58% of optimization opportunities are addressed, well below the 80% target</li>
                             </ul>
                         </div>
                     </div>
@@ -281,79 +280,148 @@
                 <div class="service-health-scorecard">
                     <div class="scorecard-header">
                         <h3>Service Health Scorecard</h3>
-                        <span class="action-required">Action Required</span>
                     </div>
                     <div class="scorecard-metrics">
-                        <div class="metric-card critical" data-navigation="insights-savings" data-scroll="actionableInsightsSection">
-                            <span class="metric-status-flag critical-flag">Critical</span>
-                            <div class="metric-label">
-                                <i class="fas fa-exclamation-circle"></i>
-                                Insight Opportunities
+                        <div class="metric-card metric-card-budget critical card-action-required" data-scroll="budgetExecutionSection">
+                            <div class="budget-card-top">
+                                <div class="metric-label">
+                                    Budget Status
+                                </div>
+                                <span class="metric-status-flag action-needed-flag"><i class="fas fa-exclamation-triangle"></i> Action Required</span>
                             </div>
-                            <div class="metric-value">85%</div>
-                            <div class="metric-detail">High optimization potential in compute resources</div>
+                            <div class="budget-over-value">$3,761 <span class="budget-over-label">over</span></div>
+                            <div class="budget-over-note">after identified savings applied</div>
+                            <div class="budget-gap-bar">
+                                <div class="budget-gap-fill" style="width: 92%"></div>
+                            </div>
+                            <div class="budget-gap-info">
+                                <span class="budget-gap-coverage">Gap Coverage: 92%</span>
+                                <span class="budget-gap-amount">$46,239 of $50,000 gap</span>
+                            </div>
                         </div>
                         
-                        <div class="metric-card warning" data-navigation="insights-anomalies" data-scroll="actionableInsightsSection">
-                            <span class="metric-status-flag warning-flag">Warning</span>
-                            <div class="metric-label">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                Anomaly Issues
-                            </div>
-                            <div class="metric-value">15%</div>
-                            <div class="metric-detail">Minor spikes detected in average costs</div>
-                        </div>
-                        
-                        <div class="metric-card good" data-scroll="costOverviewSection">
-                            <span class="metric-status-flag good-flag">Good</span>
+                        <div class="metric-card good card-no-action" data-scroll="costOverviewSection">
+                            <span class="metric-status-flag"></span>
                             <div class="metric-label">
                                 <i class="fas fa-chart-line"></i>
-                                Trend Analysis
+                                Cost Trend
                             </div>
-                            <div class="metric-value">92%</div>
-                            <div class="metric-detail">Positive trending within budget</div>
+                            <div class="spend-section">
+                                <div class="spend-panel-label">Actual Spend (MTD)</div>
+                                <div class="spend-panel-value spend-actual">$200,000</div>
+                                <div class="spend-panel-change positive">+11% vs last month (same point)</div>
+                            </div>
+                            <hr class="spend-divider">
+                            <div class="spend-section">
+                                <div class="spend-panel-label">Forecasted Spend</div>
+                                <div class="spend-panel-value spend-forecast over-budget-value">$250,000 <span class="spend-budget-ref">of $200K</span></div>
+                                <div class="spend-badges">
+                                    <span class="spend-badge over-budget">Over budget</span>
+                                    <span class="spend-badge high-confidence">High confidence</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card critical card-action-required" data-navigation="insights-savings" data-scroll="insightsSection">
+                            <div class="budget-card-top">
+                                <div class="metric-label">Actionable Insights</div>
+                                <span class="metric-status-flag action-needed-flag"><i class="fas fa-exclamation-triangle"></i> Action Required</span>
+                            </div>
+                            <div class="efficiency-progress-value">
+                                <span class="efficiency-achieved">$239</span>
+                                <span class="efficiency-target">/ $1,239 Actioned</span>
+                            </div>
+                            <div class="efficiency-progress-bar">
+                                <div class="efficiency-progress-fill" style="width: 19%"></div>
+                            </div>
+                            <div class="efficiency-progress-label">19% of insights actioned (2 of 10)</div>
                         </div>
                         
-                        <div class="metric-card critical" data-scroll="budgetExecutionSection">
-                            <span class="metric-status-flag critical-flag">Critical</span>
-                            <div class="metric-label">
-                                <i class="fas fa-dollar-sign"></i>
-                                Budget Execution
+                        <div class="metric-card warning card-action-required" data-navigation="insights-anomalies" data-scroll="anomaliesSection">
+                            <div class="budget-card-top">
+                                <div class="metric-label">Anomalies</div>
+                                <span class="metric-status-flag action-needed-flag"><i class="fas fa-exclamation-triangle"></i> Action Required</span>
                             </div>
-                            <div class="metric-value">78%</div>
-                            <div class="metric-detail">Projected to exceed forecast budget by 15%</div>
+                            <div class="efficiency-progress-value">
+                                <span class="efficiency-achieved">$489</span>
+                                <span class="efficiency-target">/ $1,155 Actioned</span>
+                            </div>
+                            <div class="efficiency-progress-bar">
+                                <div class="efficiency-progress-fill" style="width: 42%"></div>
+                            </div>
+                            <div class="efficiency-progress-label">42% of anomaly cost addressed</div>
                         </div>
                         
-                        <div class="metric-card" id="efficiencyCard">
-                            <span class="metric-status-flag" id="efficiencyStatusFlag">Loading</span>
-                            <div class="metric-label">
-                                <i class="fas fa-bolt"></i>
-                                Efficiency
+                        <div class="metric-card" id="efficiencyCard" data-scroll="efficiencyProjectsSection">
+                            <div class="budget-card-top">
+                                <div class="metric-label">Efficiency Opportunities</div>
+                                <span class="metric-status-flag" id="efficiencyStatusFlag"></span>
                             </div>
-                            <div class="metric-value" id="efficiencyValue">--%</div>
-                            <div class="metric-detail" id="efficiencyDetail">Calculating from project data...</div>
+                            <div class="efficiency-progress-value">
+                                <span class="efficiency-achieved" id="efficiencyAchieved">$0</span>
+                                <span class="efficiency-target" id="efficiencyTarget">/ $45K</span>
+                            </div>
+                            <div class="efficiency-progress-bar">
+                                <div class="efficiency-progress-fill" id="efficiencyProgressFill" style="width: 0%"></div>
+                            </div>
+                            <div class="efficiency-progress-label" id="efficiencyProgressLabel">0% of opportunities addressed</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Budget Overview Chart -->
-                <div class="budget-chart-container" id="budgetExecutionSection">
+                <div class="budget-chart-container section-hidden" id="budgetExecutionSection">
                     <h3>Budget Overview</h3>
                     <canvas id="budgetChartLanding" width="400" height="120"></canvas>
                     <button class="show-details-btn" id="showFinOpsDetailsBtn">Show Details</button>
                 </div>
 
                 <!-- Cost Overview Chart -->
-                <div class="cost-overview-container" id="costOverviewSection">
+                <div class="cost-overview-container section-hidden" id="costOverviewSection">
                     <div class="cost-overview-header">
-                        <h3 id="costOverviewTitle">Cost Overview</h3>
-                        <select id="costOverviewDropdown" class="cost-overview-dropdown">
-                            <option value="overview">Overview</option>
-                            <option value="azure">Azure</option>
-                            <option value="substrate">Substrate</option>
-                            <option value="cosmic">Cosmic</option>
-                            <option value="telemetry">Telemetry</option>
-                        </select>
+                        <h3 id="costOverviewTitle">Cost Overview - All Services</h3>
+                    </div>
+                    <div class="cost-overview-cards" id="costOverviewCards">
+                        <div class="cost-overview-card active" data-view="overview" data-label="All Services">
+                            <div class="cost-card-icon"><i class="fas fa-layer-group"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">All Services</span>
+                                <span class="cost-card-value">$356.2M</span>
+                            </div>
+                            <div class="cost-card-mom up"><i class="fas fa-arrow-up"></i> 1.5% MoM</div>
+                        </div>
+                        <div class="cost-overview-card" data-view="azure" data-label="Azure">
+                            <div class="cost-card-icon"><i class="fas fa-cloud"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Azure</span>
+                                <span class="cost-card-value">$55.1M</span>
+                            </div>
+                            <div class="cost-card-mom up"><i class="fas fa-arrow-up"></i> 1.7% MoM</div>
+                        </div>
+                        <div class="cost-overview-card" data-view="substrate" data-label="Substrate">
+                            <div class="cost-card-icon"><i class="fas fa-server"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Substrate</span>
+                                <span class="cost-card-value">$250.6M</span>
+                            </div>
+                            <div class="cost-card-mom up"><i class="fas fa-arrow-up"></i> 1.3% MoM</div>
+                        </div>
+                        <div class="cost-overview-card" data-view="cosmic" data-label="Cosmic">
+                            <div class="cost-card-icon"><i class="fas fa-database"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Cosmic</span>
+                                <span class="cost-card-value">$29.1M</span>
+                            </div>
+                            <div class="cost-card-mom up"><i class="fas fa-arrow-up"></i> 2.1% MoM</div>
+                        </div>
+                        <div class="cost-overview-card" data-view="telemetry" data-label="Telemetry">
+                            <div class="cost-card-icon"><i class="fas fa-satellite-dish"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Telemetry</span>
+                                <span class="cost-card-value">$21.4M</span>
+                            </div>
+                            <div class="cost-card-mom up"><i class="fas fa-arrow-up"></i> 2.4% MoM</div>
+                        </div>
                     </div>
                     <div class="cost-overview-legend" id="costOverviewLegend">
                         <div class="legend-item"><span class="legend-dot azure"></span> Azure</div>
@@ -365,37 +433,30 @@
                     <button class="show-details-btn hidden" id="costOverviewDetailsBtn">Show Details</button>
                 </div>
 
-                <!-- Insights Panel -->
-                <div class="insights-panel" id="actionableInsightsSection">
-                    <!-- Toggle Header -->
-                    <div class="landing-insights-toggle">
-                        <button class="landing-toggle-btn active" data-toggle="insights" id="landingInsightsToggle">
-                            <i class="fas fa-lightbulb"></i> Actionable Insights
-                        </button>
-                        <button class="landing-toggle-btn" data-toggle="anomalies" id="landingAnomaliesToggle">
-                            <i class="fas fa-exclamation-triangle"></i> Anomalies
-                        </button>
+                <!-- Actionable Insights Section -->
+                <div class="insights-panel section-hidden" id="insightsSection">
+                    <div class="insights-section-header">
+                        <h3><i class="fas fa-lightbulb"></i> Actionable Insights — Top 5 by Impact</h3>
+                        <span class="efficiency-total-savings">Total Potential Savings: $1,239/mo</span>
                     </div>
                     
-                    <!-- Actionable Insights Content -->
-                    <div class="landing-toggle-content active" id="landingInsightsContent">
-                        <div class="insight-card" data-insight="insight1">
-                            <div class="insight-header">
-                                <div class="insight-title-group">
-                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
-                                    <h4>$15.6M Monthly Saving Opportunity</h4>
-                                </div>
-                                <span class="insight-impact medium-impact">Medium impact</span>
-                            </div>
-                        </div>
-
                         <div class="insight-card" data-insight="insight2">
                             <div class="insight-header">
                                 <div class="insight-title-group">
                                     <span class="insight-type insight-type-tag">Actionable Insight</span>
                                     <h4>Right-size 16 Over-provisioned Instances</h4>
                                 </div>
-                                <span class="insight-impact high-impact">High impact</span>
+                                <span class="insight-impact high-impact">High impact · $480/mo</span>
+                            </div>
+                        </div>
+
+                        <div class="insight-card" data-insight="insight1">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                    <h4>Eliminate Idle Load Balancers (7 identified)</h4>
+                                </div>
+                                <span class="insight-impact high-impact">High impact · $310/mo</span>
                             </div>
                         </div>
 
@@ -405,7 +466,17 @@
                                     <span class="insight-type insight-type-tag">Actionable Insight</span>
                                     <h4>Consolidate 8 Underutilized Databases</h4>
                                 </div>
-                                <span class="insight-impact medium-impact">Medium impact</span>
+                                <span class="insight-impact medium-impact">Medium impact · $215/mo</span>
+                            </div>
+                        </div>
+
+                        <div class="insight-card" data-insight="insight5">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type insight-type-tag">Actionable Insight</span>
+                                    <h4>Switch to Spot Instances for Batch Jobs</h4>
+                                </div>
+                                <span class="insight-impact medium-impact">Medium impact · $138/mo</span>
                             </div>
                         </div>
 
@@ -415,22 +486,27 @@
                                     <span class="insight-type insight-type-tag">Actionable Insight</span>
                                     <h4>Optimize Reserved Instance Coverage</h4>
                                 </div>
-                                <span class="insight-impact low-impact">Low impact</span>
+                                <span class="insight-impact medium-impact">Medium impact · $96/mo</span>
                             </div>
                         </div>
 
-                        <button class="view-all-btn" id="viewAllInsightsBtn">View All</button>
-                    </div>
+                        <button class="view-all-btn" id="viewAllInsightsBtn">View All (10)</button>
+                </div>
 
-                    <!-- Anomalies Content -->
-                    <div class="landing-toggle-content" id="landingAnomaliesContent">
+                <!-- Anomalies Section -->
+                <div class="insights-panel section-hidden" id="anomaliesSection">
+                    <div class="insights-section-header">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Anomalies — Top 5 by Impact</h3>
+                        <span class="efficiency-total-savings">Total Cost Impact: $1,155</span>
+                    </div>
+                    
                         <div class="insight-card" data-insight="anomaly1">
                             <div class="insight-header">
                                 <div class="insight-title-group">
                                     <span class="insight-type anomaly-type">Anomaly</span>
-                                    <h4>$36.86M Monthly Automation Cost Increase</h4>
+                                    <h4>Automation Cost Spike — $420 unexpected increase</h4>
                                 </div>
-                                <span class="insight-impact high-impact">High impact</span>
+                                <span class="insight-impact high-impact">High impact · $420</span>
                             </div>
                         </div>
 
@@ -440,7 +516,7 @@
                                     <span class="insight-type anomaly-type">Anomaly</span>
                                     <h4>Unexpected Spike in Storage Costs</h4>
                                 </div>
-                                <span class="insight-impact medium-impact">Medium impact</span>
+                                <span class="insight-impact high-impact">High impact · $310</span>
                             </div>
                         </div>
 
@@ -448,9 +524,9 @@
                             <div class="insight-header">
                                 <div class="insight-title-group">
                                     <span class="insight-type anomaly-type">Anomaly</span>
-                                    <h4>Network Traffic Surge Detected</h4>
+                                    <h4>Network Traffic Surge — Egress Fees Up 3x</h4>
                                 </div>
-                                <span class="insight-impact medium-impact">Medium impact</span>
+                                <span class="insight-impact medium-impact">Medium impact · $215</span>
                             </div>
                         </div>
 
@@ -458,119 +534,59 @@
                             <div class="insight-header">
                                 <div class="insight-title-group">
                                     <span class="insight-type anomaly-type">Anomaly</span>
-                                    <h4>CPU Usage Spike in Substrate</h4>
+                                    <h4>CPU Usage Spike in Substrate Cluster</h4>
                                 </div>
-                                <span class="insight-impact low-impact">Low impact</span>
+                                <span class="insight-impact medium-impact">Medium impact · $125</span>
                             </div>
                         </div>
 
-                        <button class="view-all-btn" id="viewAllAnomaliesBtn">View All</button>
-                    </div>
+                        <div class="insight-card" data-insight="anomaly5">
+                            <div class="insight-header">
+                                <div class="insight-title-group">
+                                    <span class="insight-type anomaly-type">Anomaly</span>
+                                    <h4>Untagged Resource Cost Growth — $85 unattributed</h4>
+                                </div>
+                                <span class="insight-impact low-impact">Low impact · $85</span>
+                            </div>
+                        </div>
+
+                        <button class="view-all-btn" id="viewAllAnomaliesBtn">View All (8)</button>
                 </div>
 
                 <!-- Efficiency Projects Section -->
-                <div class="efficiency-projects-panel">
+                <div class="efficiency-projects-panel section-hidden" id="efficiencyProjectsSection">
                     <div class="efficiency-projects-header">
-                        <h3>Efficiency Projects</h3>
-                        <span class="efficiency-total-savings">Total Potential Savings: $28.4M</span>
+                        <h3 id="efficiencyTableTitle">Efficiency Projects — Big Bets</h3>
+                        <span class="efficiency-total-savings" id="efficiencyTableSavings">Savings Opportunity: $6.4M</span>
                     </div>
-                    
-                    <div class="efficiency-categories">
-                        <!-- Virtualized Category -->
-                        <div class="efficiency-category">
-                            <div class="category-header virtualized">
-                                <i class="fas fa-cloud"></i>
-                                <span class="category-title">Virtualized</span>
-                                <span class="category-savings">$12.8M</span>
+                    <div class="efficiency-type-cards" id="efficiencyTypeCards">
+                        <div class="cost-overview-card active" data-efficiency-type="bigbets">
+                            <div class="cost-card-icon"><i class="fas fa-rocket"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Big Bets</span>
+                                <span class="cost-card-value">$6.4M</span>
                             </div>
-                            <div class="efficiency-items">
-                                <div class="efficiency-item" data-efficiency-page="efficiency-virtualized">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">VM Right-sizing Initiative</span>
-                                        <span class="efficiency-item-savings">$5.2M</span>
-                                    </div>
-                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
-                                </div>
-                                <div class="efficiency-item" data-efficiency-page="efficiency-virtualized">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Reserved Instance Optimization</span>
-                                        <span class="efficiency-item-savings">$4.1M</span>
-                                    </div>
-                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
-                                </div>
-                                <div class="efficiency-item" data-efficiency-page="efficiency-virtualized">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Idle Resource Cleanup</span>
-                                        <span class="efficiency-item-savings">$3.5M</span>
-                                    </div>
-                                    <span class="efficiency-status delayed"><i class="fas fa-exclamation-circle"></i> Delayed</span>
-                                </div>
-                            </div>
+                            <div class="cost-card-mom"><i class="fas fa-dollar-sign"></i> Savings Opportunity</div>
                         </div>
-
-                        <!-- Baremetal Category -->
-                        <div class="efficiency-category">
-                            <div class="category-header baremetal">
-                                <i class="fas fa-server"></i>
-                                <span class="category-title">Baremetal</span>
-                                <span class="category-savings">$9.2M</span>
+                        <div class="cost-overview-card" data-efficiency-type="baremetal">
+                            <div class="cost-card-icon"><i class="fas fa-server"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Baremetal</span>
+                                <span class="cost-card-value">3 Projects</span>
                             </div>
-                            <div class="efficiency-items">
-                                <div class="efficiency-item" data-efficiency-page="efficiency-baremetal">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Server Consolidation</span>
-                                        <span class="efficiency-item-savings">$4.8M</span>
-                                    </div>
-                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
-                                </div>
-                                <div class="efficiency-item" data-efficiency-page="efficiency-baremetal">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Power Optimization</span>
-                                        <span class="efficiency-item-savings">$2.6M</span>
-                                    </div>
-                                    <span class="efficiency-status delayed"><i class="fas fa-exclamation-circle"></i> Delayed</span>
-                                </div>
-                                <div class="efficiency-item" data-efficiency-page="efficiency-baremetal">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Hardware Refresh Savings</span>
-                                        <span class="efficiency-item-savings">$1.8M</span>
-                                    </div>
-                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
-                                </div>
-                            </div>
+                            <div class="cost-card-mom"><i class="fas fa-tachometer-alt"></i> Resource Utilization</div>
                         </div>
-
-                        <!-- Big Bets Category -->
-                        <div class="efficiency-category">
-                            <div class="category-header bigbets">
-                                <i class="fas fa-rocket"></i>
-                                <span class="category-title">Big Bets</span>
-                                <span class="category-savings">$6.4M</span>
+                        <div class="cost-overview-card" data-efficiency-type="virtualized">
+                            <div class="cost-card-icon"><i class="fas fa-cloud"></i></div>
+                            <div class="cost-card-info">
+                                <span class="cost-card-name">Virtualized</span>
+                                <span class="cost-card-value">4 Projects</span>
                             </div>
-                            <div class="efficiency-items">
-                                <div class="efficiency-item" data-efficiency-page="efficiency-bigbets">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Multi-Cloud Migration</span>
-                                        <span class="efficiency-item-savings">$3.2M</span>
-                                    </div>
-                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
-                                </div>
-                                <div class="efficiency-item" data-efficiency-page="efficiency-bigbets">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">AI-Driven Auto-scaling</span>
-                                        <span class="efficiency-item-savings">$2.1M</span>
-                                    </div>
-                                    <span class="efficiency-status on-track"><i class="fas fa-check-circle"></i> On Track</span>
-                                </div>
-                                <div class="efficiency-item" data-efficiency-page="efficiency-bigbets">
-                                    <div class="efficiency-item-content">
-                                        <span class="efficiency-item-title">Containerization Initiative</span>
-                                        <span class="efficiency-item-savings">$1.1M</span>
-                                    </div>
-                                    <span class="efficiency-status delayed"><i class="fas fa-exclamation-circle"></i> Delayed</span>
-                                </div>
-                            </div>
+                            <div class="cost-card-mom"><i class="fas fa-tachometer-alt"></i> Resource Utilization</div>
                         </div>
+                    </div>
+                    <div class="efficiency-table-container" id="efficiencyTableContainer">
+                        <!-- Table content populated by JS -->
                     </div>
                 </div>
 

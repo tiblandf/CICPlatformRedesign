@@ -700,7 +700,16 @@ body {
 .insights-panel h3 {
     color: #323130;
     font-size: 18px;
-    margin-bottom: 5px;
+    margin: 0;
+}
+
+.insights-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e9ecef;
 }
 
 .section-header {
@@ -859,15 +868,26 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .efficiency-projects-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     padding-bottom: 12px;
     border-bottom: 2px solid #e9ecef;
+}
+
+.efficiency-hint {
+    font-size: 12px;
+    color: #8a8a8a;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .efficiency-projects-header h3 {
@@ -889,6 +909,32 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+}
+
+.efficiency-type-cards {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.efficiency-table-container {
+    margin-top: 8px;
+    overflow-x: auto;
+}
+
+.efficiency-data-row {
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.efficiency-data-row:hover {
+    background: #f0f6ff;
+}
+
+.savings-cell {
+    font-weight: 600;
+    color: #107c10;
 }
 
 .efficiency-category {
@@ -1206,41 +1252,29 @@ body {
     background: #f3f2f1;
 }
 
-.view-all-btn {
-    background: #0078d4;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 15px;
-    transition: background 0.2s ease;
-    min-width: 120px;
-}
-
-.view-all-btn:hover {
-    background: #106ebe;
-}
-
-.view-all-btn:active {
-    background: #005a9e;
-}
-
+.view-all-btn,
 .show-details-btn {
     background: #0078d4;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
     cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 12px;
     transition: background 0.2s ease;
     align-self: flex-start;
-    margin-top: 10px;
-    min-width: 120px;
+}
+
+.view-all-btn:hover,
+.show-details-btn:hover {
+    background: #106ebe;
+}
+
+.view-all-btn:active,
+.show-details-btn:active {
+    background: #005a9e;
 }
 
 /* Responsive Design */
@@ -1885,27 +1919,7 @@ body {
     margin-bottom: 15px;
 }
 
-.show-details-btn {
-    background: #0078d4;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    align-self: flex-start;
-    margin-top: 10px;
-}
-
-.show-details-btn:hover {
-    background: #106ebe;
-}
-
-.show-details-btn:active {
-    background: #005a9e;
-}
+/* show-details-btn styles consolidated above with view-all-btn */
 
 /* Cost Overview Chart Styles */
 .cost-overview-container {
@@ -1984,9 +1998,7 @@ body {
     background: #00b7c3;
 }
 
-.cost-overview-container .show-details-btn {
-    margin-top: 15px;
-}
+/* cost-overview show-details-btn inherits unified margin-top: 15px */
 
 .cost-overview-header {
     display: flex;
@@ -2001,26 +2013,133 @@ body {
     color: #333;
 }
 
-.cost-overview-dropdown {
-    padding: 8px 12px;
+.cost-overview-cards {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.cost-overview-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 22px;
     font-size: 13px;
+    font-weight: 500;
     border: 1px solid #e1e1e1;
-    border-radius: 4px;
-    background: white;
-    color: #333;
+    border-radius: 10px;
+    background: #fafafa;
+    color: #555;
     cursor: pointer;
-    min-width: 160px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
+    user-select: none;
+    flex: 1;
+    min-width: 140px;
 }
 
-.cost-overview-dropdown:hover {
-    border-color: #0078d4;
+.cost-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #f0f0f0;
+    transition: background 0.2s ease;
 }
 
-.cost-overview-dropdown:focus {
-    outline: none;
+.cost-overview-card i {
+    font-size: 16px;
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+.cost-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cost-card-name {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.cost-card-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.2;
+}
+
+.cost-overview-card:hover {
     border-color: #0078d4;
-    box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.2);
+    background: #f0f6ff;
+    color: #333;
+}
+
+.cost-overview-card:hover .cost-card-icon {
+    background: #e0edfa;
+}
+
+.cost-overview-card:hover i {
+    color: #0078d4;
+}
+
+.cost-overview-card.active {
+    border-color: #0078d4;
+    background: #e8f2fc;
+    color: #0078d4;
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(0, 120, 212, 0.15);
+}
+
+.cost-overview-card.active .cost-card-icon {
+    background: #d0e4f7;
+}
+
+.cost-overview-card.active i {
+    color: #0078d4;
+}
+
+.cost-overview-card.active .cost-card-value {
+    color: #0078d4;
+}
+
+.cost-card-mom {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cost-card-mom i {
+    font-size: 10px;
+}
+
+.cost-card-mom.up {
+    color: #323130;
+    background: #f3f3f3;
+}
+
+.cost-card-mom.up i {
+    color: #323130;
+}
+
+.cost-card-mom.down {
+    color: #323130;
+    background: #f3f3f3;
+}
+
+.cost-card-mom.down i {
+    color: #323130;
 }
 
 #costOverviewChart {
@@ -2456,12 +2575,13 @@ body {
 
 /* Landing Page Styles - Executive Summary */
 .executive-summary {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
-    color: white;
+    background: #e2e4e8;
+    color: #2c3e50;
     padding: 24px;
     margin-bottom: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e6ed;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .summary-header {
@@ -2481,11 +2601,12 @@ body {
 }
 
 .summary-header i {
-    color: #ffc107;
+    color: #e67e22;
 }
 
 .ai-generated-badge {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(45, 90, 138, 0.1);
+    color: #2d5a8a;
     padding: 4px 12px;
     border-radius: 12px;
     font-size: 11px;
@@ -2499,7 +2620,8 @@ body {
 }
 
 .recommended-actions {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #d5dde5;
     padding: 16px;
     border-radius: 6px;
     margin-top: 16px;
@@ -2563,12 +2685,50 @@ body {
 }
 
 .metric-card {
-    background: #f8f9fa;
+    background: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    border-left: 4px solid #ccc;
+    border: 1px solid #e1e1e1;
+    border-left: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.metric-card.card-selected {
+    box-shadow: 0 0 0 2px #0078d4, 0 4px 12px rgba(0, 120, 212, 0.2);
+    background: #fafcff;
+}
+
+/* Hidden sections - toggled by card clicks */
+.section-hidden {
+    display: none !important;
+}
+
+/* Card text color based on action status */
+.card-action-required .metric-value,
+.card-action-required .budget-over-value,
+.card-action-required .spend-panel-value,
+.card-action-required .efficiency-achieved {
+    color: #dc3545 !important;
+}
+
+.card-action-required .metric-status-flag {
+    background: #fde8e8;
+    color: #dc3545;
+}
+
+.card-no-action .metric-value,
+.card-no-action .budget-over-value,
+.card-no-action .spend-panel-value,
+.card-no-action .efficiency-achieved {
+    color: #28a745 !important;
+}
+
+.card-no-action .metric-status-flag {
+    background: #e8f5e9;
+    color: #28a745;
 }
 
 .metric-card[data-navigation] {
@@ -2577,43 +2737,47 @@ body {
 
 .metric-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .metric-card[data-navigation]:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .metric-status-flag {
     position: absolute;
     top: 12px;
     right: 12px;
-    padding: 4px 10px;
-    border-radius: 4px;
+    padding: 3px 10px;
+    border-radius: 12px;
     font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
 }
 
 .critical-flag {
-    background: #dc3545;
-    color: white;
+    background: #fde8e8;
+    color: #dc3545;
+}
+
+.action-needed-flag {
+    background: #fde8e8;
+    color: #dc3545;
 }
 
 .warning-flag {
-    background: #ffc107;
-    color: #856404;
+    background: #fff8e1;
+    color: #b8860b;
 }
 
 .good-flag {
-    background: #28a745;
-    color: white;
+    background: #e8f5e9;
+    color: #28a745;
 }
 
 .metric-card.critical {
-    border-left-color: #dc3545;
+    border-left: none;
 }
 
 .metric-card.critical .metric-value {
@@ -2621,19 +2785,225 @@ body {
 }
 
 .metric-card.warning {
-    border-left-color: #ffc107;
+    border-left: none;
 }
 
 .metric-card.warning .metric-value {
-    color: #f0ad4e;
+    color: #e8a608;
 }
 
 .metric-card.good {
-    border-left-color: #28a745;
+    border-left: none;
 }
 
 .metric-card.good .metric-value {
+    color: #323130;
+}
+
+/* Budget Status Card */
+.metric-card-budget {
+    /* no special border — matches other cards */
+}
+
+.budget-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.budget-card-top .metric-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #323130;
+}
+
+.budget-card-top .metric-status-flag {
+    position: static;
+}
+
+.budget-over-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #dc3545;
+    line-height: 1.2;
+}
+
+.budget-over-label {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+}
+
+.budget-over-note {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 12px;
+}
+
+.budget-gap-bar {
+    height: 12px;
+    background: #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+}
+
+.budget-gap-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: #28a745;
+    transition: width 0.5s ease;
+}
+
+.card-action-required .budget-gap-fill {
+    background: #dc3545;
+}
+
+.card-no-action .budget-gap-fill {
+    background: #28a745;
+}
+
+.budget-gap-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+}
+
+.budget-gap-coverage {
+    font-weight: 600;
+    color: #323130;
+}
+
+.budget-gap-amount {
+    color: #666;
+}
+
+/* Efficiency Work Progress Card */
+.efficiency-progress-value {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.efficiency-achieved {
+    font-size: 28px;
+    font-weight: 700;
     color: #28a745;
+}
+
+.efficiency-target {
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+}
+
+.efficiency-progress-bar {
+    height: 12px;
+    background: #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+}
+
+.efficiency-progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: #28a745;
+    transition: width 0.5s ease;
+}
+
+.card-action-required .efficiency-progress-fill {
+    background: #dc3545;
+}
+
+.card-no-action .efficiency-progress-fill {
+    background: #28a745;
+}
+
+.efficiency-progress-label {
+    font-size: 12px;
+    color: #666;
+    padding-top: 4px;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Spend card layout (Trend Analysis) */
+.spend-section {
+    margin-top: 8px;
+}
+
+.spend-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.spend-panel-label {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.spend-panel-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #323130;
+    margin-bottom: 4px;
+}
+
+.spend-panel-value.spend-actual {
+    color: #323130 !important;
+}
+
+.spend-panel-value.over-budget-value {
+    color: #dc3545 !important;
+}
+
+.spend-budget-ref {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+}
+
+.spend-panel-change {
+    font-size: 12px;
+    font-weight: 600;
+    color: #323130;
+}
+
+.spend-panel-change.positive {
+    color: #323130;
+}
+
+.spend-panel-change.negative {
+    color: #323130;
+}
+
+.spend-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.spend-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.spend-badge.over-budget {
+    background: #fde8e8;
+    color: #dc3545;
+}
+
+.spend-badge.high-confidence {
+    background: #f0f0f0;
+    color: #555;
 }
 
 .metric-label {
